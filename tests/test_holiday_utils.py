@@ -12,6 +12,7 @@ from pybizday_utils.holiday_utils import (
 )
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     'd, expected',
     [
@@ -32,6 +33,7 @@ def test_is_saturday_or_sunday(
     assert is_saturday_or_sunday(d) == expected
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     'd, expected',
     [
@@ -48,6 +50,7 @@ def test_is_new_year_day(
     assert is_new_year_day(d) == expected
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     'd, expected',
     [
@@ -70,6 +73,7 @@ def test_is_the_first_three_days_of_new_year(
     assert is_the_first_three_days_of_new_year(d) == expected
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     'd, expected',
     [
@@ -90,6 +94,7 @@ def test_is_the_end_of_year(
     assert is_the_end_of_year(d) == expected
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     'd, expected',
     [
@@ -114,6 +119,7 @@ def test_is_between_1231_0103(
     assert is_between_1231_0103(d) == expected
 
 
+@pytest.mark.positive
 def test_holiday_discriminator_with_arg() -> None:
     discriminator = HolidayDiscriminator(is_saturday_or_sunday)
     assert discriminator(date(2025, 3, 21)) is False
@@ -123,6 +129,7 @@ def test_holiday_discriminator_with_arg() -> None:
     assert discriminator.names == [is_saturday_or_sunday.__name__]
 
 
+@pytest.mark.positive
 def test_holiday_discriminator_with_kwarg() -> None:
     discriminator = HolidayDiscriminator(is_sos=is_saturday_or_sunday)
     assert discriminator(date(2025, 3, 21)) is False
@@ -132,6 +139,7 @@ def test_holiday_discriminator_with_kwarg() -> None:
     assert discriminator.names == ['is_sos']
 
 
+@pytest.mark.positive
 def test_holiday_discriminator_with_args_kwargs() -> None:
     discriminator = HolidayDiscriminator(
         is_saturday_or_sunday,
@@ -157,6 +165,7 @@ def test_holiday_discriminator_with_args_kwargs() -> None:
     ]
 
 
+@pytest.mark.positive
 def test_holiday_discriminator_kwargs_priority() -> None:
 
     def dummy(date: date) -> bool:
@@ -175,6 +184,7 @@ def test_holiday_discriminator_kwargs_priority() -> None:
     assert discriminator.names == ['dummy']
 
 
+@pytest.mark.positive
 def test_holiday_discriminator_properties() -> None:
 
     discriminator = HolidayDiscriminator(is_new_year_day)
@@ -198,6 +208,7 @@ def test_holiday_discriminator_properties() -> None:
     assert discriminator.is_holiday_funcs == discriminator._is_holiday_funcs
 
 
+@pytest.mark.positive
 def test_holiday_discriminator_add_is_holiday_funcs_as_args() -> None:
 
     discriminator = HolidayDiscriminator()
@@ -213,6 +224,7 @@ def test_holiday_discriminator_add_is_holiday_funcs_as_args() -> None:
     assert discriminator._is_holiday_funcs != cache
 
 
+@pytest.mark.positive
 def test_holiday_discriminator_add_is_holiday_funcs_as_kwargs() -> None:
 
     discriminator = HolidayDiscriminator()
@@ -228,6 +240,7 @@ def test_holiday_discriminator_add_is_holiday_funcs_as_kwargs() -> None:
     assert discriminator._is_holiday_funcs != cache
 
 
+@pytest.mark.positive
 def test_holiday_discriminator_add_is_holiday_funcs_with_allow_overwrite() -> None:
 
     discriminator = HolidayDiscriminator(func=is_new_year_day)
@@ -243,6 +256,7 @@ def test_holiday_discriminator_add_is_holiday_funcs_with_allow_overwrite() -> No
     assert discriminator._is_holiday_funcs != cache
 
 
+@pytest.mark.negative
 def test_holiday_discriminator_add_is_holiday_funcs_should_prohibit_overwrite_in_default() -> None:  # noqa: E501
 
     discriminator = HolidayDiscriminator(func=is_new_year_day)
@@ -260,6 +274,7 @@ def test_holiday_discriminator_add_is_holiday_funcs_should_prohibit_overwrite_in
     assert discriminator._is_holiday_funcs == cache
 
 
+@pytest.mark.negative
 def test_holiday_discriminator_add_is_holiday_funcs_as_args_without_name_attr() -> None:  # noqa: E501
 
     class CallableCls:
@@ -281,6 +296,7 @@ def test_holiday_discriminator_add_is_holiday_funcs_as_args_without_name_attr() 
     assert discriminator._is_holiday_funcs == cache
 
 
+@pytest.mark.positive
 def test_holiday_discriminator_remove() -> None:
 
     discriminator = HolidayDiscriminator(is_new_year_day)
@@ -292,6 +308,7 @@ def test_holiday_discriminator_remove() -> None:
     assert discriminator.names == []
 
 
+@pytest.mark.negative
 def test_holiday_discriminator_remove_not_exist() -> None:
 
     discriminator = HolidayDiscriminator(is_new_year_day)

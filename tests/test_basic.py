@@ -14,6 +14,7 @@ from pybizday_utils.basic import (
 )
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     "date, is_holiday, expected",
     [
@@ -29,6 +30,7 @@ def test_is_bizday(
     assert is_bizday(date, is_holiday) == expected
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     "date, is_holiday, expected",
     [
@@ -57,6 +59,7 @@ def test_get_next_bizday(
     assert get_next_bizday(date, is_holiday) == expected
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     "date, is_holiday, expected",
     [
@@ -85,6 +88,7 @@ def test_get_prev_bizday(
     assert get_prev_bizday(date, is_holiday) == expected
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     "date, n, is_holiday, expected",
     [
@@ -189,6 +193,7 @@ def test_get_n_next_bizday(
     assert get_n_next_bizday(date, n, is_holiday) == expected
 
 
+@pytest.mark.negative
 def test_get_n_next_bizday_with_n_0_and_date_holiday() -> None:
     date = datetime.date(2025, 4, 25)
     def is_holiday(d: datetime.date) -> bool: return True
@@ -196,6 +201,7 @@ def test_get_n_next_bizday_with_n_0_and_date_holiday() -> None:
         get_n_next_bizday(date, 0, is_holiday)
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     "date, n, is_holiday, expected",
     [
@@ -300,6 +306,7 @@ def test_get_n_prev_bizday(
     assert get_n_prev_bizday(date, n, is_holiday) == expected
 
 
+@pytest.mark.negative
 def test_get_n_prev_bizday_with_n_0_and_date_holiday() -> None:
     date = datetime.date(2025, 4, 25)
     def is_holiday(d: datetime.date) -> bool: return True
@@ -307,6 +314,7 @@ def test_get_n_prev_bizday_with_n_0_and_date_holiday() -> None:
         get_n_prev_bizday(date, 0, is_holiday)
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     "start, end, is_holiday, include_start, include_end, expected",
     [
@@ -448,6 +456,7 @@ def test_bizday_range(
     assert actual == expected
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     "start, end, is_holiday, include_start, include_end, expected",
     [

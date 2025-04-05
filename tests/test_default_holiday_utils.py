@@ -34,6 +34,7 @@ def func_new2_(d: date) -> bool:
     return d.day == 5
 
 
+@pytest.mark.positive
 def test_global_default_holiday_discriminator_singleton() -> None:
     # Test that the singleton instance is the same across multiple calls
     instance1 = _GlobalDefaultHolidayDiscriminator.get_instance()
@@ -41,6 +42,7 @@ def test_global_default_holiday_discriminator_singleton() -> None:
     assert instance1 is instance2, "Singleton instances are not the same"
 
 
+@pytest.mark.positive
 def test_get_global_holiday_funcs() -> None:
     # Test that the global holiday functions are empty by default
     default = _GlobalDefaultHolidayDiscriminator.get_instance()
@@ -56,6 +58,7 @@ def test_get_global_holiday_funcs() -> None:
     }
 
 
+@pytest.mark.positive
 def test_get_global_holiday_funcs_names() -> None:
     # Test that the global holiday functions names are empty by default
     default = _GlobalDefaultHolidayDiscriminator.get_instance()
@@ -68,6 +71,7 @@ def test_get_global_holiday_funcs_names() -> None:
     assert get_global_holiday_funcs_names() == ["test_func", "test_func2"]
 
 
+@pytest.mark.positive
 def test_add_global_is_holiday_funcs() -> None:
     # execute
     add_global_is_holiday_funcs(func1, func2, func3=func3_)
@@ -80,6 +84,7 @@ def test_add_global_is_holiday_funcs() -> None:
     assert get_global_holiday_funcs()["func3"] == func3_
 
 
+@pytest.mark.positive
 def test_add_global_is_holiday_funcs_with_allow_overwrite() -> None:
 
     # preparation
@@ -94,6 +99,7 @@ def test_add_global_is_holiday_funcs_with_allow_overwrite() -> None:
     assert get_global_holiday_funcs()["func1"] is func_new
 
 
+@pytest.mark.negative
 def test_add_global_is_holiday_funcs_should_prohibit_overwrite_in_default() -> None:  # noqa: E501
     # execute
     add_global_is_holiday_funcs(func1, func2, func3=func3_)
@@ -107,6 +113,7 @@ def test_add_global_is_holiday_funcs_should_prohibit_overwrite_in_default() -> N
         add_global_is_holiday_funcs(func3=func3_)
 
 
+@pytest.mark.positive
 def test_remove_global_is_holiday_funcs() -> None:
     # preparation
     add_global_is_holiday_funcs(func1, func2, func3=func3_)
@@ -123,12 +130,14 @@ def test_remove_global_is_holiday_funcs() -> None:
     assert get_global_holiday_funcs()["func2"] is func2
 
 
+@pytest.mark.negative
 def test_remove_global_is_holiday_funcs_with_non_existing_name() -> None:
     # Test that removing a non-existing function name does not raise an error
     with pytest.raises(KeyError):
         remove_global_is_holiday_funcs("non_existing_func")
 
 
+@pytest.mark.positive
 def test_with_is_holiday_funcs_in_default() -> None:
 
     # preparation
@@ -154,6 +163,7 @@ def test_with_is_holiday_funcs_in_default() -> None:
     assert set(get_global_holiday_funcs_names()) == {"func1", "func2", "func3"}
 
 
+@pytest.mark.positive
 def test_with_is_holiday_funcs_with_allow_overwrite() -> None:
 
     # preparation
@@ -177,6 +187,7 @@ def test_with_is_holiday_funcs_with_allow_overwrite() -> None:
     assert set(get_global_holiday_funcs_names()) == {"func1", "func2", "func3"}  # noqa: E501
 
 
+@pytest.mark.positive
 def test_with_is_holiday_funcs_with_all_replace() -> None:
 
     # preparation
@@ -204,6 +215,7 @@ def test_with_is_holiday_funcs_with_all_replace() -> None:
     assert set(get_global_holiday_funcs_names()) == {"func1", "func2", "func3"}  # noqa: E501
 
 
+@pytest.mark.positive
 @pytest.mark.use_global_default_holiday_discriminator
 def test_default_holiday_discriminator_status() -> None:
     default = _GlobalDefaultHolidayDiscriminator.get_instance()

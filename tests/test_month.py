@@ -16,6 +16,7 @@ from pybizday_utils.month import (
 )
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     'd,is_holiday,expected',
     [
@@ -99,6 +100,7 @@ def test_is_biz_end_of_month(
     assert is_biz_end_of_month(d, is_holiday) == expected
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     'd,is_holiday,expected',
     [
@@ -182,6 +184,7 @@ def test_is_biz_start_of_month(
     assert is_biz_start_of_month(d, is_holiday) == expected
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     'd,is_holiday,expected',
     [
@@ -258,6 +261,7 @@ def test_get_biz_start_of_month(
     assert get_biz_start_of_month(d, is_holiday) == expected
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     "d,is_holiday,expected",
     [
@@ -336,6 +340,7 @@ def test_get_biz_end_of_month(
     assert get_biz_end_of_month(d, is_holiday) == expected
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     'd,years,months,is_holiday,expected',
     [
@@ -366,6 +371,7 @@ def test_add_years_months_with_bizeom2bizeomFalse_bizsom2bizsomFalse(
     assert add_years_months(d, years, months, is_holiday, bizeom2bizeom=False, bizsom2bizsom=False) == expected  # noqa: E501
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     'd,years,months,is_holiday,expected',
     [
@@ -417,6 +423,7 @@ def test_add_years_months_with_bizeom2bizeomTrue_bizsom2bizsomTrue(
     assert add_years_months(d, years, months, is_holiday, bizeom2bizeom=True, bizsom2bizsom=True) == expected  # noqa: E501
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     'date, months, is_holiday, bizeom2bizeom, bizsom2bizsom',
     [
@@ -504,6 +511,7 @@ def test_add_months(
     )
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     'date, years, is_holiday, bizeom2bizeom, bizsom2bizsom',
     [

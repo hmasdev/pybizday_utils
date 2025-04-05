@@ -5,6 +5,7 @@ import pytest
 from pybizday_utils.date_range_utils import date_range
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     'start, end, include_start, include_end, step_days, expected',
     [
@@ -115,6 +116,7 @@ def test_date_range_with_end(
     assert actual == expected
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     'start, include_start, include_end, step_days, expected',
     [
@@ -224,11 +226,13 @@ def test_date_range_without_end(
     assert actual == expected
 
 
+@pytest.mark.negative
 def test_date_range_with_invalid_step_days() -> None:
     with pytest.raises(ValueError):
         list(date_range(datetime.date(2021, 1, 1), step_days=0))
 
 
+@pytest.mark.positive
 @pytest.mark.parametrize(
     'start, end, include_start, include_end, step_days, expected',
     [
