@@ -89,16 +89,16 @@ from datetime import date
 from pybizday_utils import (
     add_months,
     add_years,
-    get_first_bizday_of_month,
-    get_last_bizday_of_month,
+    get_biz_start_of_month,
+    get_biz_end_of_month,
 )
 
 # Get the first business day of the month
-first_bizday = get_first_bizday_of_month(date(2025, 3, 28))
+first_bizday = get_biz_start_of_month(date(2025, 3, 28))
 print(first_bizday)  # Output: 2025-03-03
 
 # Get the last business day of the month
-last_bizday = get_last_bizday_of_month(date(2024, 11, 15))
+last_bizday = get_biz_end_of_month(date(2024, 11, 15))
 print(last_bizday)  # Output: 2024-11-29
 
 # Add months to a date considering business days
