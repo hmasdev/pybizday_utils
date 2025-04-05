@@ -49,7 +49,7 @@ def get_prev_bizday(
     date: datetime.date,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
 ) -> datetime.date:
-    """Get the previous business day before the given date."
+    """Get the previous business day before the given date.
 
     Args:
         date (datetime.date): Reference date.
