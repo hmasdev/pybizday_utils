@@ -1,6 +1,6 @@
 [project]
 name = "pybizday_utils"
-description = "business day utility"
+description = "`pybizday_utils` is a Python library that provides utilities for calculating business days, including the ability to customize holidays and workdays."
 dynamic = ["version"]
 readme = "README.md"
 requires-python = ">=3.10"
@@ -20,6 +20,19 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
+dev = [
+    "autopep8>=2.3.2",
+    "build>=1.2.2.post1",
+    "mypy>=1.15.0",
+    "nox>=2025.2.9",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.0.0",
+    "pytest-mock>=3.14.0",
+    "ruff>=0.11.2",
+    "twine>=6.1.0",
+]
+
+[dependency-groups]
 dev = [
     "autopep8>=2.3.2",
     "build>=1.2.2.post1",
