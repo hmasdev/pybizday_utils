@@ -4,31 +4,40 @@ from typing import Callable, Generator
 
 
 def date_range(
-    start: datetime.date,
-    end: datetime.date | None = None,
+    start: datetime.date | datetime.datetime,
+    end: datetime.date | datetime.datetime | None = None,
     *,
     include_start: bool = True,
     include_end: bool = True,
     step_days: int = 1,
+    datetime_handler: Callable[[datetime.datetime], datetime.date] = datetime.datetime.date,  # noqa: E501
 ) -> Generator[datetime.date, None, None]:
     """date generator from start to end.
 
     Args:
-        start (datetime.date): start date
-        end (datetime.date | None, optional): end date. Defaults to None.
+        start (datetime.date | datetime.datetime): start date
+        end (datetime.date | datetime.datetime | None, optional): end date. Defaults to None.
         include_start (bool, optional): include start date. Defaults to True.
         include_end (bool, optional): include end date. Defaults to True.
         step_days (int, optional): step days. Defaults to 1
+        datetime_handler (Callable[[datetime.datetime], datetime.date], optional): function to convert
+            datetime.datetime to datetime.date. Defaults to datetime.datetime.date.
 
     Yields:
         Generator[datetime.date, None, None]: date generator
 
     Raises:
         ValueError: step_days is 0
-    """
+    """  # noqa: E501
     # validate step_days
     if step_days == 0:
         raise ValueError("step_days must not be 0")
+
+    # convert start and end to date
+    if isinstance(start, datetime.datetime):
+        start = datetime_handler(start)
+    if isinstance(end, datetime.datetime):
+        end = datetime_handler(end)
 
     # set ascending and delta
     ASCENDING = step_days > 0

@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime, timedelta
 from typing import Callable
 
 import pytest
@@ -508,6 +508,7 @@ def test_add_months(
         is_holiday,
         bizeom2bizeom=bizeom2bizeom,
         bizsom2bizsom=bizsom2bizsom,
+        datetime_handler=datetime.date,
     )
 
 
@@ -596,4 +597,107 @@ def test_add_years(
         is_holiday,
         bizeom2bizeom=bizeom2bizeom,
         bizsom2bizsom=bizsom2bizsom,
+        datetime_handler=datetime.date,
     )
+
+
+@pytest.mark.positive
+@pytest.mark.parametrize(
+    'd,is_holiday,handler',
+    [
+        (datetime(2023, 1, 1, 12), lambda _: False, datetime.date),
+        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=1)).date()),  # noqa: E501
+        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=2)).date()),  # noqa: E501
+        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=3)).date()),  # noqa: E501
+        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=4)).date()),  # noqa: E501
+    ]
+)
+def test_is_biz_end_of_month_with_datetime_obj_should_return_the_same_result_of_is_biz_end_of_month_with_handled_date(  # noqa: E501
+    d: datetime,
+    is_holiday: Callable[[date], bool],
+    handler: Callable[[datetime], date],
+) -> None:
+    handled = handler(d)
+    assert is_biz_end_of_month(d, is_holiday, datetime_handler=handler) == is_biz_end_of_month(handled, is_holiday)  # noqa: E501
+
+
+@pytest.mark.positive
+@pytest.mark.parametrize(
+    'd,is_holiday,handler',
+    [
+        (datetime(2023, 1, 1, 12), lambda _: False, datetime.date),
+        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=1)).date()),  # noqa: E501
+        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=2)).date()),  # noqa: E501
+        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=3)).date()),  # noqa: E501
+        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=4)).date()),  # noqa: E501
+    ]
+)
+def test_is_biz_start_of_month_with_datetime_obj_should_return_the_same_result_of_is_biz_start_of_month_with_handled_date(  # noqa: E501
+    d: datetime,
+    is_holiday: Callable[[date], bool],
+    handler: Callable[[datetime], date],
+) -> None:
+    handled = handler(d)
+    assert is_biz_start_of_month(d, is_holiday, datetime_handler=handler) == is_biz_start_of_month(handled, is_holiday)  # noqa: E501
+
+
+@pytest.mark.positive
+@pytest.mark.parametrize(
+    'd,is_holiday,handler',
+    [
+        (datetime(2023, 1, 1, 12), lambda _: False, datetime.date),
+        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=1)).date()),  # noqa: E501
+        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=2)).date()),  # noqa: E501
+        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=3)).date()),  # noqa: E501
+        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=4)).date()),  # noqa: E501
+    ]
+)
+def test_get_biz_end_of_month_with_datetime_obj_should_return_the_same_result_of_get_biz_end_of_month_with_handled_date(  # noqa: E501
+    d: datetime,
+    is_holiday: Callable[[date], bool],
+    handler: Callable[[datetime], date],
+) -> None:
+    handled = handler(d)
+    assert get_biz_end_of_month(d, is_holiday, datetime_handler=handler) == get_biz_end_of_month(handled, is_holiday)  # noqa: E501
+
+
+@pytest.mark.positive
+@pytest.mark.parametrize(
+    'd,is_holiday,handler',
+    [
+        (datetime(2023, 1, 1, 12), lambda _: False, datetime.date),
+        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=1)).date()),  # noqa: E501
+        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=2)).date()),  # noqa: E501
+        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=3)).date()),  # noqa: E501
+        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=4)).date()),  # noqa: E501
+    ]
+)
+def test_get_biz_start_of_month_with_datetime_obj_should_return_the_same_result_of_get_biz_start_of_month_with_handled_date(  # noqa: E501
+    d: datetime,
+    is_holiday: Callable[[date], bool],
+    handler: Callable[[datetime], date],
+) -> None:
+    handled = handler(d)
+    assert get_biz_start_of_month(d, is_holiday, datetime_handler=handler) == get_biz_start_of_month(handled, is_holiday)  # noqa: E501
+
+
+@pytest.mark.positive
+@pytest.mark.parametrize(
+    'd,years,months,is_holiday,handler',
+    [
+        (datetime(2024, 2, 1, 12), 1, 1, lambda _: False, datetime.date),
+        (datetime(2024, 2, 15, 12), 1, 1, lambda _: False, lambda x: (x + timedelta(days=1)).date()),  # noqa: E501
+        (datetime(2024, 2, 28, 12), 1, 1, lambda _: False, lambda x: (x + timedelta(days=2)).date()),  # noqa: E501
+        (datetime(2024, 2, 29, 12), 1, 1, lambda _: False, lambda x: (x + timedelta(days=3)).date()),  # noqa: E501
+        (datetime(2024, 3, 31, 12), 1, 1, lambda _: False, lambda x: (x + timedelta(days=4)).date()),  # noqa: E501
+    ]
+)
+def test_add_years_months_with_datetime_obj_should_return_the_same_result_of_add_years_months_with_handled_date(  # noqa: E501
+    d: datetime,
+    years: int,
+    months: int,
+    is_holiday: Callable[[date], bool],
+    handler: Callable[[datetime], date],
+) -> None:
+    handled = handler(d)
+    assert add_years_months(d, years, months, is_holiday, datetime_handler=handler) == add_years_months(handled, years, months, is_holiday)  # noqa: E501
