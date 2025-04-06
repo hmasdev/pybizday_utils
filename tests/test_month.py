@@ -508,7 +508,7 @@ def test_add_months(
         is_holiday,
         bizeom2bizeom=bizeom2bizeom,
         bizsom2bizsom=bizsom2bizsom,
-        datetime_handler=lambda dt: dt.date(),
+        datetime_handler=datetime.date,
     )
 
 
