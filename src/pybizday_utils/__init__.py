@@ -21,7 +21,7 @@ from .month import (
     is_biz_start_of_month,
 )
 
-__version__ = "0.1.0"
+__version__ = "0.0.0"
 __all__ = [
     "add_months",
     "add_years",
