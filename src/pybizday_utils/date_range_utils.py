@@ -4,8 +4,8 @@ from typing import Callable, Generator
 
 
 def date_range(
-    start: datetime.date,
-    end: datetime.date | None = None,
+    start: datetime.date | datetime.datetime,
+    end: datetime.date | datetime.datetime | None = None,
     *,
     include_start: bool = True,
     include_end: bool = True,
@@ -14,8 +14,8 @@ def date_range(
     """date generator from start to end.
 
     Args:
-        start (datetime.date): start date
-        end (datetime.date | None, optional): end date. Defaults to None.
+        start (datetime.date | datetime.datetime): start date
+        end (datetime.date | datetime.datetime | None, optional): end date. Defaults to None.
         include_start (bool, optional): include start date. Defaults to True.
         include_end (bool, optional): include end date. Defaults to True.
         step_days (int, optional): step days. Defaults to 1
@@ -25,7 +25,7 @@ def date_range(
 
     Raises:
         ValueError: step_days is 0
-    """
+    """  # noqa: E501
     # validate step_days
     if step_days == 0:
         raise ValueError("step_days must not be 0")

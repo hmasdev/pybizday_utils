@@ -11,13 +11,13 @@ from .holiday_utils import IsHolidayFuncType
 
 
 def is_biz_end_of_month(
-    date: datetime.date,
+    date: datetime.date | datetime.datetime,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
 ) -> bool:
     """Check if the given date is the last business day of the month.
 
     Args:
-        date (datetime.date): Date to check.
+        date (datetime.date | datetime.datetime): Date to check.
         is_holiday (IsHolidayFuncType, optional): Function to check if a date is a holiday.
             Defaults to global_default_holiday_discriminator.
 
@@ -30,13 +30,13 @@ def is_biz_end_of_month(
 
 
 def is_biz_start_of_month(
-    date: datetime.date,
+    date: datetime.date | datetime.datetime,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
 ) -> bool:
     """Check if the given date is the first business day of the month.
 
     Args:
-        date (datetime.date): Date to check.
+        date (datetime.date | datetime.datetime): Date to check.
         is_holiday (IsHolidayFuncType, optional): Function to check if a date is a holiday.
             Defaults to global_default_holiday_discriminator.
 
@@ -49,13 +49,13 @@ def is_biz_start_of_month(
 
 
 def get_biz_end_of_month(
-    date: datetime.date,
+    date: datetime.date | datetime.datetime,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
 ) -> datetime.date:
     """Get the last business day of the month for the given date.
 
     Args:
-        date (datetime.date): reference date.
+        date (datetime.date | datetime.datetime): reference date.
         is_holiday (IsHolidayFuncType, optional): function to check if a date is a holiday.
             Defaults to global_default_holiday_discriminator.
 
@@ -69,13 +69,13 @@ def get_biz_end_of_month(
 
 
 def get_biz_start_of_month(
-    date: datetime.date,
+    date: datetime.date | datetime.datetime,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
 ) -> datetime.date:
     """Get the first business day of the month for the given date.
 
     Args:
-        date (datetime.date): reference date.
+        date (datetime.date | datetime.datetime): reference date.
         is_holiday (IsHolidayFuncType, optional): function to check if a date is a holiday.
             Defaults to global_default_holiday_discriminator.
 
@@ -88,7 +88,7 @@ def get_biz_start_of_month(
 
 
 def add_years_months(
-    date: datetime.date,
+    date: datetime.date | datetime.datetime,
     years: int,
     months: int,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
@@ -99,7 +99,7 @@ def add_years_months(
     """Add years and months to a date with business day adjustment.
 
     Args:
-        date (datetime.date): Reference date.
+        date (datetime.date | datetime.datetime): Reference date.
         years (int): Years to add
         months (int): Months to add
         is_holiday (IsHolidayFuncType, optional): function to check if a date is a holiday.
@@ -122,7 +122,7 @@ def add_years_months(
 
 
 def add_years(
-    date: datetime.date,
+    date: datetime.date | datetime.datetime,
     years: int,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
     *,
@@ -133,7 +133,7 @@ def add_years(
     This function is a wrapper around add_years_months with months set to 0.
 
     Args:
-        date (datetime.date): Reference date.
+        date (datetime.date | datetime.datetime): Reference date.
         years (int): Years to add
         is_holiday (IsHolidayFuncType, optional): function to check if a date is a holiday.
             Defaults to global_default_holiday_discriminator.
@@ -156,7 +156,7 @@ def add_years(
 
 
 def add_months(
-    date: datetime.date,
+    date: datetime.date | datetime.datetime,
     months: int,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
     *,
@@ -167,7 +167,7 @@ def add_months(
     This function is a wrapper around add_years_months with years set to 0.
 
     Args:
-        date (datetime.date): Reference date.
+        date (datetime.date | datetime.datetime): Reference date.
         months (int): Months to add
         is_holiday (IsHolidayFuncType, optional): function to check if a date is a holiday.
             Defaults to global_default_holiday_discriminator.

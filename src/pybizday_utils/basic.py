@@ -8,13 +8,13 @@ from .holiday_utils import IsHolidayFuncType
 
 
 def is_bizday(
-    date: datetime.date,
+    date: datetime.date | datetime.datetime,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
 ) -> bool:
     """Check if the given date is a business day.
 
     Args:
-        date (datetime.date): date to check.
+        date (datetime.date | datetime.datetime): date to check.
         is_holiday (IsHolidayFuncType, optional): function to check if a date is a holiday.
             Defaults to global_default_holiday_discriminator.
 
@@ -25,13 +25,13 @@ def is_bizday(
 
 
 def get_next_bizday(
-    date: datetime.date,
+    date: datetime.date | datetime.datetime,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
 ) -> datetime.date:
     """Get the next business day after the given date.
 
     Args:
-        date (datetime.date): Reference date.
+        date (datetime.date | datetime.datetime): Reference date.
         is_holiday (IsHolidayFuncType, optional): function to check if a date is a holiday.
             Defaults to global_default_holiday_discriminator.
 
@@ -42,13 +42,13 @@ def get_next_bizday(
 
 
 def get_prev_bizday(
-    date: datetime.date,
+    date: datetime.date | datetime.datetime,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
 ) -> datetime.date:
     """Get the previous business day before the given date.
 
     Args:
-        date (datetime.date): Reference date.
+        date (datetime.date | datetime.datetime): Reference date.
         is_holiday (IsHolidayFuncType, optional): function to check if a date is a holiday.
             Defaults to global_default_holiday_discriminator.
 
@@ -59,14 +59,14 @@ def get_prev_bizday(
 
 
 def get_n_next_bizday(
-    date: datetime.date,
+    date: datetime.date | datetime.datetime,
     n: int,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
 ) -> datetime.date:
     """Get the n-th next business day after the given date.
 
     Args:
-        date (datetime.date): Reference date.
+        date (datetime.date | datetime.datetime): Reference date.
         n (int): Number of business days to skip.
             0 means the same date.
             1 means the next business day.
@@ -96,14 +96,14 @@ def get_n_next_bizday(
 
 
 def get_n_prev_bizday(
-    date: datetime.date,
+    date: datetime.date | datetime.datetime,
     n: int,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
 ) -> datetime.date:
     """Get the n-th previous business day before the given date."
 
     Args:
-        date (datetime.date): Reference date.
+        date (datetime.date | datetime.datetime): Reference date.
         n (int): Number of business days to skip.
             0 means the same date.
             1 means the previous business day.
@@ -133,8 +133,8 @@ def get_n_prev_bizday(
 
 
 def bizday_range(
-    start: datetime.date,
-    end: datetime.date,
+    start: datetime.date | datetime.datetime,
+    end: datetime.date | datetime.datetime,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
     *,
     include_start: bool = True,
@@ -143,8 +143,8 @@ def bizday_range(
     """Generate a range of business days between two dates."
 
     Args:
-        start (datetime.date): Start date.
-        end (datetime.date): End date.
+        start (datetime.date | datetime.datetime): Start date.
+        end (datetime.date | datetime.datetime): End date.
         is_holiday (IsHolidayFuncType, optional): function to check if a date is a holiday.
             Defaults to global_default_holiday_discriminator.
         include_start (bool, optional): Include the start date in the range. Defaults to True.
@@ -170,8 +170,8 @@ def bizday_range(
 
 
 def count_bizdays(
-    start: datetime.date,
-    end: datetime.date,
+    start: datetime.date | datetime.datetime,
+    end: datetime.date | datetime.datetime,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
     *,
     include_start: bool = True,
@@ -180,8 +180,8 @@ def count_bizdays(
     """Count the number of business days between two dates.
 
     Args:
-        start (datetime.date): Start date.
-        end (datetime.date): End date.
+        start (datetime.date | datetime.datetime): Start date.
+        end (datetime.date | datetime.datetime): End date.
         is_holiday (IsHolidayFuncType, optional): function to check if a date is a holiday.
             Defaults to global_default_holiday_discriminator.
         include_start (bool, optional): Include the start date in the count. Defaults to True.
