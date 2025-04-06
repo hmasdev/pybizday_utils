@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from typing import Callable
 
 import pytest
@@ -508,6 +508,7 @@ def test_add_months(
         is_holiday,
         bizeom2bizeom=bizeom2bizeom,
         bizsom2bizsom=bizsom2bizsom,
+        datetime_handler=datetime.date,
     )
 
 
@@ -596,4 +597,5 @@ def test_add_years(
         is_holiday,
         bizeom2bizeom=bizeom2bizeom,
         bizsom2bizsom=bizsom2bizsom,
+        datetime_handler=datetime.date,
     )
