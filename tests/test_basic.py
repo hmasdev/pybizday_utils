@@ -558,3 +558,241 @@ def test_count_bizdays(
         include_end=include_end,
     )
     assert actual == expected
+
+
+@pytest.mark.positive
+@pytest.mark.parametrize(
+    'd, handler, is_holiday',
+    [
+        (
+            datetime.datetime(2021, 1, 1),
+            lambda dt: dt.date(),
+            lambda d: d == datetime.date(2021, 1, 1),
+        ),
+        (
+            datetime.datetime(2021, 1, 2),
+            lambda dt: dt.date(),
+            lambda d: d == datetime.date(2021, 1, 3),
+        ),
+        (
+            datetime.datetime(2021, 1, 3),
+            lambda _: datetime.date(2024, 1, 1),
+            lambda d: d == datetime.date(2024, 1, 1),
+        ),
+    ],
+)
+def test_is_bizday_with_datetime_obj_should_return_the_same_result_of_is_bizyday_with_handled_obj(  # noqa: E501
+    d: datetime.datetime,
+    handler: Callable[[datetime.datetime], datetime.date],
+    is_holiday: Callable[[datetime.date], bool],
+) -> None:
+    handled_d = handler(d)
+    assert is_bizday(d, is_holiday, datetime_handler=handler) == is_bizday(handled_d, is_holiday)  # noqa: E501
+
+
+@pytest.mark.positive
+@pytest.mark.parametrize(
+    'd, handler, is_holiday',
+    [
+        (
+            datetime.datetime(2021, 1, 1),
+            lambda dt: dt.date(),
+            lambda d: d == datetime.date(2021, 1, 1),
+        ),
+        (
+            datetime.datetime(2021, 1, 2),
+            lambda dt: dt.date(),
+            lambda d: d == datetime.date(2021, 1, 3),
+        ),
+        (
+            datetime.datetime(2021, 1, 3),
+            lambda _: datetime.date(2024, 1, 3),
+            lambda d: d == datetime.date(2024, 1, 4),
+        ),
+    ],
+)
+def test_get_next_bizday_with_datetime_obj_should_return_the_same_result_of_get_next_bizday_with_handled_obj(  # noqa: E501
+    d: datetime.datetime,
+    handler: Callable[[datetime.datetime], datetime.date],
+    is_holiday: Callable[[datetime.date], bool],
+) -> None:
+    handled_d = handler(d)
+    assert get_next_bizday(d, is_holiday, datetime_handler=handler) == get_next_bizday(handled_d, is_holiday)  # noqa: E501
+
+
+@pytest.mark.positive
+@pytest.mark.parametrize(
+    'd, handler, is_holiday',
+    [
+        (
+            datetime.datetime(2021, 1, 1),
+            lambda dt: dt.date(),
+            lambda d: d == datetime.date(2021, 1, 1),
+        ),
+        (
+            datetime.datetime(2021, 1, 2),
+            lambda dt: dt.date(),
+            lambda d: d == datetime.date(2021, 1, 3),
+        ),
+        (
+            datetime.datetime(2021, 1, 3),
+            lambda _: datetime.date(2024, 1, 3),
+            lambda d: d == datetime.date(2024, 1, 2),
+        ),
+    ],
+)
+def test_get_prev_bizday_with_datetime_obj_should_return_the_same_result_of_get_prev_bizday_with_handled_obj(  # noqa: E501
+    d: datetime.datetime,
+    handler: Callable[[datetime.datetime], datetime.date],
+    is_holiday: Callable[[datetime.date], bool],
+) -> None:
+    handled_d = handler(d)
+    assert get_prev_bizday(d, is_holiday, datetime_handler=handler) == get_prev_bizday(handled_d, is_holiday)  # noqa: E501
+
+
+@pytest.mark.positive
+@pytest.mark.parametrize(
+    'd, handler, n, is_holiday',
+    [
+        (
+            datetime.datetime(2021, 1, 1),
+            lambda dt: dt.date(),
+            1,
+            lambda d: d == datetime.date(2021, 1, 1),
+        ),
+        (
+            datetime.datetime(2021, 1, 2),
+            lambda dt: dt.date(),
+            -1,
+            lambda d: d == datetime.date(2021, 1, 3),
+        ),
+        (
+            datetime.datetime(2021, 1, 3),
+            lambda _: datetime.date(2024, 1, 3),
+            2,
+            lambda d: d == datetime.date(2024, 1, 4),
+        ),
+    ],
+)
+def test_get_n_next_bizday_with_datetime_obj_should_return_the_same_result_of_get_n_next_bizday_with_handled_obj(  # noqa: E501
+    d: datetime.datetime,
+    handler: Callable[[datetime.datetime], datetime.date],
+    n: int,
+    is_holiday: Callable[[datetime.date], bool],
+) -> None:
+    handled_d = handler(d)
+    assert get_n_next_bizday(d, n, is_holiday, datetime_handler=handler) == get_n_next_bizday(handled_d, n, is_holiday)  # noqa: E501
+
+
+@pytest.mark.positive
+@pytest.mark.parametrize(
+    'd, handler, n, is_holiday',
+    [
+        (
+            datetime.datetime(2021, 1, 1),
+            lambda dt: dt.date(),
+            -1,
+            lambda d: d == datetime.date(2021, 1, 1),
+        ),
+        (
+            datetime.datetime(2021, 1, 2),
+            lambda dt: dt.date(),
+            1,
+            lambda d: d == datetime.date(2021, 1, 3),
+        ),
+        (
+            datetime.datetime(2021, 1, 3),
+            lambda _: datetime.date(2024, 1, 3),
+            2,
+            lambda d: d == datetime.date(2024, 1, 2),
+        ),
+    ],
+)
+def test_get_n_prev_bizday_with_datetime_obj_should_return_the_same_result_of_get_n_prev_bizday_with_handled_obj(  # noqa: E501
+    d: datetime.datetime,
+    handler: Callable[[datetime.datetime], datetime.date],
+    n: int,
+    is_holiday: Callable[[datetime.date], bool],
+) -> None:
+    handled_d = handler(d)
+    assert get_n_prev_bizday(d, n, is_holiday, datetime_handler=handler) == get_n_prev_bizday(handled_d, n, is_holiday)  # noqa: E501
+
+
+@pytest.mark.positive
+@pytest.mark.parametrize(
+    'start, end, handler, is_holiday',
+    [
+        (
+            datetime.datetime(2021, 1, 1),
+            datetime.datetime(2021, 1, 10),
+            lambda dt: dt.date(),
+            lambda d: d == datetime.date(2021, 1, 3),
+        ),
+        (
+            datetime.datetime(2021, 1, 2),
+            datetime.datetime(2021, 1, 11),
+            lambda dt: dt.date(),
+            lambda d: d == datetime.date(2021, 1, 3),
+        ),
+        (
+            datetime.datetime(2021, 1, 3),
+            datetime.datetime(2021, 1, 12),
+            lambda dt: (dt + datetime.timedelta(days=10)).date(),
+            lambda d: d == datetime.date(2024, 1, 15),
+        ),
+    ],
+)
+def test_bizday_range_with_datetime_obj_should_return_the_same_result_of_bizday_range_with_handled_obj(  # noqa: E501
+    start: datetime.datetime,
+    end: datetime.datetime,
+    handler: Callable[[datetime.datetime], datetime.date],
+    is_holiday: Callable[[datetime.date], bool],
+) -> None:
+    handled_start = handler(start)
+    handled_end = handler(end)
+    assert list(bizday_range(
+        start,
+        end,
+        is_holiday,
+        datetime_handler=handler,
+    )) == list(bizday_range(handled_start, handled_end, is_holiday))  # noqa: E501
+
+
+@pytest.mark.positive
+@pytest.mark.parametrize(
+    'start, end, handler, is_holiday',
+    [
+        (
+            datetime.datetime(2021, 1, 1),
+            datetime.datetime(2021, 1, 10),
+            lambda dt: dt.date(),
+            lambda d: d == datetime.date(2021, 1, 1),
+        ),
+        (
+            datetime.datetime(2021, 1, 2),
+            datetime.datetime(2021, 1, 11),
+            lambda dt: dt.date(),
+            lambda d: d == datetime.date(2021, 1, 3),
+        ),
+        (
+            datetime.datetime(2021, 1, 3),
+            datetime.datetime(2021, 1, 12),
+            lambda dt: (dt + datetime.timedelta(days=10)).date(),
+            lambda d: d == datetime.date(2024, 1, 15),
+        ),
+    ],
+)
+def test_count_bizdays_with_datetime_obj_should_return_the_same_result_of_count_bizdays_with_handled_obj(  # noqa: E501
+    start: datetime.datetime,
+    end: datetime.datetime,
+    handler: Callable[[datetime.datetime], datetime.date],
+    is_holiday: Callable[[datetime.date], bool],
+) -> None:
+    handled_start = handler(start)
+    handled_end = handler(end)
+    assert count_bizdays(
+        start,
+        end,
+        is_holiday,
+        datetime_handler=handler,
+    ) == count_bizdays(handled_start, handled_end, is_holiday)
