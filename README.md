@@ -4,6 +4,7 @@
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/hmasdev/pybizday_utils?sort=semver)
 ![GitHub](https://img.shields.io/github/license/hmasdev/pybizday_utils)
 ![GitHub last commit](https://img.shields.io/github/last-commit/hmasdev/pybizday_utils)
+[![PyPI version](https://badge.fury.io/py/pybizday_utils.svg)](https://pypi.org/project/pybizday_utils/)
 
 `pybizday_utils` is a Python library that provides utilities for calculating business days, including the ability to customize holidays and workdays.
 It is designed to be simple and easy to use, making it a great choice for developers who need to work with business days in their applications.
@@ -20,6 +21,12 @@ It is designed to be simple and easy to use, making it a great choice for develo
 
 ```bash
 pip install -U git+https://github.com/hmasdev/pybizday_utils.git
+```
+
+or
+
+```bash
+pip install -U pybizday_utils
 ```
 
 ## How to Use
