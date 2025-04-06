@@ -46,11 +46,12 @@ dev = [
 ]
 
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools", "wheel", "setuptools_scm"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools.dynamic]
-version = { attr = "pybizday_utils.__version__" }
+
+[tool.setuptools_scm]
+version_file = "src/pybizday_utils/_version.py"
 
 [tool.pytest.ini_options]
 minversion = "6.0"

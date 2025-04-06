@@ -15,3 +15,6 @@ coverage.xml
 
 # vscode
 .vscode
+
+# _version.py
+src/pybizday_utils/_version.py
