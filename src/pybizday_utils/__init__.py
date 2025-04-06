@@ -20,6 +20,7 @@ from .month import (
     is_biz_end_of_month,
     is_biz_start_of_month,
 )
+
 try:
     from ._version import __version__  # noqa
 except ImportError:
