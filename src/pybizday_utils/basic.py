@@ -1,5 +1,4 @@
 import datetime
-from functools import singledispatch
 from itertools import dropwhile, filterfalse
 from typing import Generator
 
@@ -8,7 +7,6 @@ from .default_holiday_utils import global_default_holiday_discriminator
 from .holiday_utils import IsHolidayFuncType
 
 
-@singledispatch
 def is_bizday(
     date: datetime.date,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
@@ -26,7 +24,6 @@ def is_bizday(
     return not is_holiday(date)
 
 
-@singledispatch
 def get_next_bizday(
     date: datetime.date,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
@@ -44,7 +41,6 @@ def get_next_bizday(
     return next(dropwhile(is_holiday, date_range(date, include_start=False)))
 
 
-@singledispatch
 def get_prev_bizday(
     date: datetime.date,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
@@ -62,7 +58,6 @@ def get_prev_bizday(
     return next(dropwhile(is_holiday, date_range(date, include_start=False, step_days=-1)))  # noqa: E501
 
 
-@singledispatch
 def get_n_next_bizday(
     date: datetime.date,
     n: int,
@@ -100,7 +95,6 @@ def get_n_next_bizday(
         return get_n_prev_bizday(date, -n, is_holiday)  # noqa: E501
 
 
-@singledispatch
 def get_n_prev_bizday(
     date: datetime.date,
     n: int,
@@ -138,7 +132,6 @@ def get_n_prev_bizday(
         return get_n_next_bizday(date, -n, is_holiday)  # noqa: E501
 
 
-@singledispatch
 def bizday_range(
     start: datetime.date,
     end: datetime.date,
@@ -176,7 +169,6 @@ def bizday_range(
     )
 
 
-@singledispatch
 def count_bizdays(
     start: datetime.date,
     end: datetime.date,
