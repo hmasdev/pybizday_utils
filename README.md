@@ -272,18 +272,6 @@ print(next_bizday)  # Output: 2025-04-03
 
 7. [Create a pull request](https://github.com/hmasdev/pybizday_utils/compare) to the main repository.
 
-## TODO
-
-- [ ] Add github actions
-  - [ ] test
-  - [ ] lint
-  - [ ] mypy
-
-- [ ] Make pre-commit hooks
-  - [ ] test
-  - [ ] lint
-  - [ ] mypy
-
 ## License
 
 [MIT](./LICENSE)
