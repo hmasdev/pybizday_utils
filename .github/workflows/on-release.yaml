@@ -43,7 +43,7 @@ jobs:
           name: build-artifacts
           path: dist/
   deploy-to-github:
-    needs: build
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - name: Download artifacts
@@ -62,7 +62,7 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_RELEASE_ID: ${{ github.event.release.id }}
   deploy-to-PyPI:
-    needs: build
+    needs: [deploy-to-github]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -85,7 +85,7 @@ jobs:
           path: dist/
       - name: Upload to PyPI
         run: |
-          uv run twine upload dist/*
+          uv run twine upload dist/*${{ github.event.release.tag_name }}*
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
