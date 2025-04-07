@@ -112,7 +112,7 @@ def get_n_next_bizday(
 
     Raises:
         ValueError: If n=0 and the date is a holiday.
-        ValueError: If no next business day is found.
+        ValueError: If no n-th next business day is found.
 
     Returns:
         datetime.date: n-th next business day after the given date.
@@ -126,10 +126,12 @@ def get_n_next_bizday(
         return date
     elif n > 0:
         try:
-            next_bizday = get_next_bizday(date, is_holiday, datetime_handler=datetime_handler)  # noqa: E501
+            # NOTE: recursive implementation may cause RecursionError when n is large.  # noqa: E501
+            for _ in range(n):
+                date = get_next_bizday(date, is_holiday, datetime_handler=datetime_handler)  # noqa: E501
         except ValueError as e:
-            raise ValueError(f'No next business day found: n = {n}') from e
-        return get_n_next_bizday(next_bizday, n - 1, is_holiday, datetime_handler=datetime_handler)  # noqa: E501
+            raise ValueError(f'No {n}-th next business day found') from e
+        return date
     else:
         return get_n_prev_bizday(date, -n, is_holiday, datetime_handler=datetime_handler)  # noqa: E501
 
@@ -172,10 +174,12 @@ def get_n_prev_bizday(
         return date
     elif n > 0:
         try:
-            prev_bizday = get_prev_bizday(date, is_holiday, datetime_handler=datetime_handler)  # noqa: E501
+            # NOTE: recursive implementation may cause RecursionError when n is large.  # noqa: E501
+            for _ in range(n):
+                date = get_prev_bizday(date, is_holiday, datetime_handler=datetime_handler)  # noqa: E501
         except ValueError as e:
-            raise ValueError(f'No previous business day found: n = {n}') from e
-        return get_n_prev_bizday(prev_bizday, n - 1, is_holiday, datetime_handler=datetime_handler)  # noqa: E501
+            raise ValueError(f'No {n}-th previous business day found') from e
+        return date
     else:
         return get_n_next_bizday(date, -n, is_holiday, datetime_handler=datetime_handler)  # noqa: E501
 

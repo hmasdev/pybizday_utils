@@ -193,6 +193,16 @@ def test_get_n_next_bizday(
     assert get_n_next_bizday(date, n, is_holiday) == expected
 
 
+@pytest.mark.positive
+@pytest.mark.heavy
+def test_get_n_next_bizday_with_large_n() -> None:
+    date = datetime.date(2025, 4, 25)
+    n = 10000
+    actual = get_n_next_bizday(date, n, is_holiday=lambda _: False)
+    expected = date + datetime.timedelta(days=n)
+    assert actual == expected
+
+
 @pytest.mark.negative
 def test_get_n_next_bizday_with_n_0_and_date_holiday() -> None:
     date = datetime.date(2025, 4, 25)
@@ -304,6 +314,16 @@ def test_get_n_prev_bizday(
     expected: datetime.date,
 ) -> None:
     assert get_n_prev_bizday(date, n, is_holiday) == expected
+
+
+@pytest.mark.positive
+@pytest.mark.heavy
+def test_get_n_prev_bizday_with_large_n() -> None:
+    date = datetime.date(2025, 4, 25)
+    n = 10000
+    actual = get_n_prev_bizday(date, n, is_holiday=lambda _: False)
+    expected = date - datetime.timedelta(days=n)
+    assert actual == expected
 
 
 @pytest.mark.negative
@@ -816,9 +836,9 @@ def test_get_prev_bizday_should_raise_ValueError_if_no_prev_bizday_found() -> No
 @pytest.mark.parametrize(
     "d, n, expected_msg",
     [
-        (datetime.date.max - datetime.timedelta(days=10), 1, "No next business day found: n = 1"),  # noqa: E501
-        (datetime.date.max - datetime.timedelta(days=10), 2, "No next business day found: n = 2"),  # noqa: E501
-        (datetime.date.min + datetime.timedelta(days=10), -1, "No previous business day found: n = 1"),  # noqa: E501
+        (datetime.date.max - datetime.timedelta(days=10), 1, "No 1-th next business day found"),  # noqa: E501
+        (datetime.date.max - datetime.timedelta(days=10), 2, "No 2-th next business day found"),  # noqa: E501
+        (datetime.date.min + datetime.timedelta(days=10), -1, "No 1-th previous business day found"),  # noqa: E501
     ]
 )
 def test_get_n_next_bizday_should_raise_ValueError_if_no_next_bizday_found(
@@ -834,9 +854,9 @@ def test_get_n_next_bizday_should_raise_ValueError_if_no_next_bizday_found(
 @pytest.mark.parametrize(
     "d, n, expected_msg",
     [
-        (datetime.date.min + datetime.timedelta(days=10), 1, "No previous business day found: n = 1"),  # noqa: E501
-        (datetime.date.min + datetime.timedelta(days=10), 2, "No previous business day found: n = 2"),  # noqa: E501
-        (datetime.date.max - datetime.timedelta(days=10), -1, "No next business day found: n = 1"),  # noqa: E501
+        (datetime.date.min + datetime.timedelta(days=10), 1, "No 1-th previous business day found"),  # noqa: E501
+        (datetime.date.min + datetime.timedelta(days=10), 2, "No 2-th previous business day found"),  # noqa: E501
+        (datetime.date.max - datetime.timedelta(days=10), -1, "No 1-th next business day found"),  # noqa: E501
     ]
 )
 def test_get_n_prev_bizday_should_raise_ValueError_if_no_prev_bizday_found(
