@@ -1,5 +1,4 @@
 import datetime
-from itertools import count
 from typing import Callable, Generator
 
 from .utils import validate_date_type
@@ -34,6 +33,9 @@ def date_range(
 
     Raises:
         ValueError: step_days is 0
+
+    Notes:
+        the generator will stop when it reaches out of range, that is, when the date is greater than date.max or less than date.min.
     """
     # validate step_days
     if step_days == 0:
@@ -71,11 +73,9 @@ def date_range(
     }[(ASCENDING, include_end)]
 
     # yield date
-    for _ in count():
-        if is_broken(start):
-            break
-        yield start
-        try:
+    try:
+        while not is_broken(start):
+            yield start
             start += DELTA
-        except OverflowError:
-            break
+    except OverflowError:
+        pass
