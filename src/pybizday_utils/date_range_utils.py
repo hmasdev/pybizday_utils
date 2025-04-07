@@ -1,6 +1,8 @@
 import datetime
 from typing import Callable, Generator
 
+from .utils import validate_date_type
+
 
 def date_range(
     start: datetime.date | datetime.datetime,
@@ -9,18 +11,22 @@ def date_range(
     include_start: bool = True,
     include_end: bool = True,
     step_days: int = 1,
-    datetime_handler: Callable[[datetime.datetime], datetime.date] = datetime.datetime.date,  # noqa: E501
+    datetime_handler: Callable[
+        [datetime.datetime], datetime.date
+    ] = datetime.datetime.date,
 ) -> Generator[datetime.date, None, None]:
     """date generator from start to end.
 
     Args:
         start (datetime.date | datetime.datetime): start date
-        end (datetime.date | datetime.datetime | None, optional): end date. Defaults to None.
+        end (datetime.date | datetime.datetime | None, optional): end date.
+            Defaults to None.
         include_start (bool, optional): include start date. Defaults to True.
         include_end (bool, optional): include end date. Defaults to True.
         step_days (int, optional): step days. Defaults to 1
-        datetime_handler (Callable[[datetime.datetime], datetime.date], optional): function to convert
-            datetime.datetime to datetime.date. Defaults to datetime.datetime.date.
+        datetime_handler (Callable[[datetime.datetime], datetime.date], optional):
+            function to convert datetime.datetime to datetime.date.
+            Defaults to datetime.datetime.date.
 
     Yields:
         Generator[datetime.date, None, None]: date generator
@@ -30,12 +36,16 @@ def date_range(
 
     Notes:
         the generator will stop when it reaches out of range, that is, when the date is greater than date.max or less than date.min.
-    """  # noqa: E501
+    """
     # validate step_days
     if step_days == 0:
         raise ValueError("step_days must not be 0")
 
-    # convert start and end to date
+    # validate and convert start and end to date
+    validate_date_type(start)
+    if end is not None:
+        validate_date_type(end)
+
     if isinstance(start, datetime.datetime):
         start = datetime_handler(start)
     if isinstance(end, datetime.datetime):
