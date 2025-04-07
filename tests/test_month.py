@@ -1,5 +1,5 @@
 from datetime import date, datetime, timedelta
-from typing import Callable, Any
+from typing import Any, Callable
 
 import pytest
 from pytest_mock import MockerFixture
@@ -707,23 +707,58 @@ def test_add_years_months_with_datetime_obj_should_return_the_same_result_of_add
 @pytest.mark.parametrize(
     'func,invalid_date,expected_msg',
     [
-        (is_biz_end_of_month, "2023-01-15", "date must be a datetime.date or datetime.datetime object, not <class 'str'>"),
-        (is_biz_start_of_month, 123, "date must be a datetime.date or datetime.datetime object, not <class 'int'>"),
-        (get_biz_end_of_month, None, "date must be a datetime.date or datetime.datetime object, not <class 'NoneType'>"),
-        (get_biz_start_of_month, [], "date must be a datetime.date or datetime.datetime object, not <class 'list'>"),
-        (add_years_months, {}, "date must be a datetime.date or datetime.datetime object, not <class 'dict'>"),
-        (add_years, 1.5, "date must be a datetime.date or datetime.datetime object, not <class 'float'>"),
-        (add_months, True, "date must be a datetime.date or datetime.datetime object, not <class 'bool'>"),
+        (
+            is_biz_end_of_month,
+            "2023-01-15",
+            "date must be a datetime.date or datetime.datetime object, "
+            "not <class 'str'>"
+        ),
+        (
+            is_biz_start_of_month,
+            123,
+            "date must be a datetime.date or datetime.datetime object, "
+            "not <class 'int'>"
+        ),
+        (
+            get_biz_end_of_month,
+            None,
+            "date must be a datetime.date or datetime.datetime object, "
+            "not <class 'NoneType'>"
+        ),
+        (
+            get_biz_start_of_month,
+            [],
+            "date must be a datetime.date or datetime.datetime object, "
+            "not <class 'list'>"
+        ),
+        (
+            add_years_months,
+            {},
+            "date must be a datetime.date or datetime.datetime object, "
+            "not <class 'dict'>"
+        ),
+        (
+            add_years,
+            1.5,
+            "date must be a datetime.date or datetime.datetime object, "
+            "not <class 'float'>"
+        ),
+        (
+            add_months,
+            True,
+            "date must be a datetime.date or datetime.datetime object, "
+            "not <class 'bool'>"
+        ),
     ]
 )
 def test_type_checking_raises_type_error(
-    func: Callable,
+    func: Callable[..., Any],
     invalid_date: Any,
     expected_msg: str,
 ) -> None:
     """Test that functions raise TypeError for invalid date types."""
     with pytest.raises(TypeError, match=expected_msg):
         if func in {add_years_months, add_years, add_months}:
-            func(invalid_date, 1, 0)  # type: ignore
+            func(invalid_date, 1, 0)
         else:
-            func(invalid_date)  # type: ignore
+            func(invalid_date)
