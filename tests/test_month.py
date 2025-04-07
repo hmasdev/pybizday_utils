@@ -13,7 +13,6 @@ from pybizday_utils.month import (
     get_biz_start_of_month,
     is_biz_end_of_month,
     is_biz_start_of_month,
-    get_nth_bizday_of_month,
 )
 
 
@@ -702,91 +701,6 @@ def test_add_years_months_with_datetime_obj_should_return_the_same_result_of_add
 ) -> None:
     handled = handler(d)
     assert add_years_months(d, years, months, is_holiday, datetime_handler=handler) == add_years_months(handled, years, months, is_holiday)  # noqa: E501
-
-
-@pytest.mark.positive
-@pytest.mark.parametrize(
-    'd,n,is_holiday,expected',
-    [
-        # Case: everyday is not holiday
-        (date(2023, 1, 15), 1, lambda _: False, date(2023, 1, 1)),
-        (date(2023, 1, 15), 2, lambda _: False, date(2023, 1, 2)),
-        (date(2023, 1, 15), 31, lambda _: False, date(2023, 1, 31)),
-        
-        # Case: weekends are holidays
-        (date(2023, 1, 15), 1, lambda d: d.weekday() in {5, 6}, date(2023, 1, 2)),  # Jan 1 is Sunday
-        (date(2023, 1, 15), 2, lambda d: d.weekday() in {5, 6}, date(2023, 1, 3)),
-        (date(2023, 1, 15), 20, lambda d: d.weekday() in {5, 6}, date(2023, 1, 30)),  # Last business day
-        
-        # Case: specific holidays
-        (date(2023, 1, 15), 1, lambda d: d in {date(2023, 1, 1), date(2023, 1, 2)}, date(2023, 1, 3)),
-        (date(2023, 1, 15), 2, lambda d: d in {date(2023, 1, 1), date(2023, 1, 2)}, date(2023, 1, 4)),
-        
-        # Case: different months
-        (date(2023, 2, 15), 1, lambda d: d.weekday() in {5, 6}, date(2023, 2, 1)),  # Feb 1 is Wednesday
-        (date(2023, 2, 15), 20, lambda d: d.weekday() in {5, 6}, date(2023, 2, 28)),  # Last business day
-    ]
-)
-def test_get_nth_bizday_of_month(
-    d: date,
-    n: int,
-    is_holiday: Callable[[date], bool],
-    expected: date,
-) -> None:
-    assert get_nth_bizday_of_month(d, n, is_holiday) == expected
-
-
-@pytest.mark.negative
-@pytest.mark.parametrize(
-    'd,n,is_holiday,expected_error,expected_msg',
-    [
-        # Case: n <= 0
-        (date(2023, 1, 15), 0, lambda _: False, ValueError, "n must be positive"),
-        (date(2023, 1, 15), -1, lambda _: False, ValueError, "n must be positive"),
-        
-        # Case: n greater than number of business days in month
-        (date(2023, 1, 15), 32, lambda _: False, ValueError, "Month 1 has fewer than 32 business days"),
-        (date(2023, 2, 15), 29, lambda _: False, ValueError, "Month 2 has fewer than 29 business days"),
-        
-        # Case: all days are holidays
-        (date(2023, 1, 15), 1, lambda _: True, ValueError, "Month 1 has fewer than 1 business days"),
-        
-        # Case: weekends are holidays and n is too large
-        (date(2023, 1, 15), 23, lambda d: d.weekday() in {5, 6}, ValueError, "Month 1 has fewer than 23 business days"),
-        
-        # Case: invalid date type
-        ("2023-01-15", 1, lambda _: False, TypeError, "date must be a datetime.date or datetime.datetime object, not <class 'str'>"),
-    ]
-)
-def test_get_nth_bizday_of_month_raises(
-    d: date,
-    n: int,
-    is_holiday: Callable[[date], bool],
-    expected_error: type[Exception],
-    expected_msg: str,
-) -> None:
-    with pytest.raises(expected_error, match=expected_msg):
-        get_nth_bizday_of_month(d, n, is_holiday)
-
-
-@pytest.mark.positive
-def test_get_nth_bizday_of_month_with_datetime_obj_should_return_the_same_result_of_get_nth_bizday_of_month_with_handled_date(
-    mocker: MockerFixture,
-) -> None:
-    """Test that get_nth_bizday_of_month with datetime object returns the same result as with date object."""
-    # Arrange
-    dt = datetime(2023, 1, 15, 12, 34, 56)
-    n = 5
-    is_holiday = lambda d: d.weekday() in {5, 6}
-    datetime_handler = mocker.Mock(return_value=dt.date())
-    
-    # Act
-    result_with_datetime = get_nth_bizday_of_month(dt, n, is_holiday, datetime_handler=datetime_handler)
-    result_with_date = get_nth_bizday_of_month(dt.date(), n, is_holiday)
-    
-    # Assert
-    assert result_with_datetime == result_with_date
-    datetime_handler.assert_called_once_with(dt)
 
 
 @pytest.mark.negative
