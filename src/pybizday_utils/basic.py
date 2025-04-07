@@ -45,12 +45,18 @@ def get_next_bizday(
         datetime_handler (Callable[[datetime.datetime], datetime.date], optional): function to convert
             datetime.datetime to datetime.date. Defaults to datetime.datetime.date.
 
+    Raises:
+        ValueError: If no next business day is found.
+
     Returns:
         datetime.date: Next business day after the given date.
     """  # noqa: E501
     if isinstance(date, datetime.datetime):
         date = datetime_handler(date)
-    return next(dropwhile(is_holiday, date_range(date, include_start=False)))
+    try:
+        return next(dropwhile(is_holiday, date_range(date, include_start=False)))
+    except StopIteration as e:
+        raise ValueError('No next business day found') from e
 
 
 def get_prev_bizday(
@@ -68,12 +74,18 @@ def get_prev_bizday(
         datetime_handler (Callable[[datetime.datetime], datetime.date], optional): function to convert
             datetime.datetime to datetime.date. Defaults to datetime.datetime.date.
 
+    Raises:
+        ValueError: If no previous business day is found.
+
     Returns:
         datetime.date: Previous business day before the given date.
     """  # noqa: E501
     if isinstance(date, datetime.datetime):
         date = datetime_handler(date)
-    return next(dropwhile(is_holiday, date_range(date, include_start=False, step_days=-1)))  # noqa: E501
+    try:
+        return next(dropwhile(is_holiday, date_range(date, include_start=False, step_days=-1)))  # noqa: E501
+    except StopIteration as e:
+        raise ValueError('No previous business day found') from e
 
 
 def get_n_next_bizday(
@@ -100,6 +112,7 @@ def get_n_next_bizday(
 
     Raises:
         ValueError: If n=0 and the date is a holiday.
+        ValueError: If no next business day is found.
 
     Returns:
         datetime.date: n-th next business day after the given date.
@@ -112,12 +125,11 @@ def get_n_next_bizday(
             raise ValueError(f"n=0 but date={date} is holiday")
         return date
     elif n > 0:
-        return get_n_next_bizday(
-            get_next_bizday(date, is_holiday, datetime_handler=datetime_handler),  # noqa: E501
-            n - 1,
-            is_holiday,
-            datetime_handler=datetime_handler,
-        )
+        try:
+            next_bizday = get_next_bizday(date, is_holiday, datetime_handler=datetime_handler)  # noqa: E501
+        except ValueError as e:
+            raise ValueError(f'No next business day found: n = {n}') from e
+        return get_n_next_bizday(next_bizday, n - 1, is_holiday, datetime_handler=datetime_handler)  # noqa: E501
     else:
         return get_n_prev_bizday(date, -n, is_holiday, datetime_handler=datetime_handler)  # noqa: E501
 
@@ -146,6 +158,7 @@ def get_n_prev_bizday(
 
     Raises:
         ValueError: If n=0 and the date is a holiday.
+        ValueError: If no n-th previous business day is found.
 
     Returns:
         datetime.date: n-th previous business day before the given date.
@@ -158,11 +171,11 @@ def get_n_prev_bizday(
             raise ValueError(f"n=0 but date={date} is holiday")
         return date
     elif n > 0:
-        return get_n_prev_bizday(
-            get_prev_bizday(date, is_holiday, datetime_handler=datetime_handler),  # noqa: E501
-            n - 1,
-            is_holiday,
-        )
+        try:
+            prev_bizday = get_prev_bizday(date, is_holiday, datetime_handler=datetime_handler)  # noqa: E501
+        except ValueError as e:
+            raise ValueError(f'No previous business day found: n = {n}') from e
+        return get_n_prev_bizday(prev_bizday, n - 1, is_holiday, datetime_handler=datetime_handler)  # noqa: E501
     else:
         return get_n_next_bizday(date, -n, is_holiday, datetime_handler=datetime_handler)  # noqa: E501
 
