@@ -28,7 +28,14 @@ def is_biz_end_of_month(
 
     Returns:
         bool: True if the date is the last business day of the month, False otherwise.
+
+    Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime object.
     """  # noqa: E501
+    if not isinstance(date, (datetime.date, datetime.datetime)):
+        raise TypeError(
+            f"date must be a datetime.date or datetime.datetime object, not {type(date)}"
+        )
     if isinstance(date, datetime.datetime):
         date = datetime_handler(date)
     if is_holiday(date):
@@ -53,7 +60,14 @@ def is_biz_start_of_month(
 
     Returns:
         bool: True if the date is the first business day of the month, False otherwise.
+
+    Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime object.
     """  # noqa: E501
+    if not isinstance(date, (datetime.date, datetime.datetime)):
+        raise TypeError(
+            f"date must be a datetime.date or datetime.datetime object, not {type(date)}"
+        )
     if isinstance(date, datetime.datetime):
         date = datetime_handler(date)
     if is_holiday(date):
@@ -78,7 +92,14 @@ def get_biz_end_of_month(
 
     Returns:
         datetime.date: last business day of the month for the given date.
+
+    Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime object.
     """  # noqa: E501
+    if not isinstance(date, (datetime.date, datetime.datetime)):
+        raise TypeError(
+            f"date must be a datetime.date or datetime.datetime object, not {type(date)}"
+        )
     if isinstance(date, datetime.datetime):
         date = datetime_handler(date)
     date = date.replace(day=1)  # start of month
@@ -104,7 +125,14 @@ def get_biz_start_of_month(
 
     Returns:
         datetime.date: first business day of the month for the given date.
+
+    Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime object.
     """  # noqa: E501
+    if not isinstance(date, (datetime.date, datetime.datetime)):
+        raise TypeError(
+            f"date must be a datetime.date or datetime.datetime object, not {type(date)}"
+        )
     if isinstance(date, datetime.datetime):
         date = datetime_handler(date)
     date = date.replace(day=1)  # start of month
@@ -139,7 +167,14 @@ def add_years_months(
 
     Returns:
         datetime.date: Date after adding years and months with business day adjustment.
+
+    Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime object.
     """  # noqa: E501
+    if not isinstance(date, (datetime.date, datetime.datetime)):
+        raise TypeError(
+            f"date must be a datetime.date or datetime.datetime object, not {type(date)}"
+        )
     if isinstance(date, datetime.datetime):
         date = datetime_handler(date)
     added = date + relativedelta(years=years, months=months)
@@ -177,7 +212,14 @@ def add_years(
 
     Returns:
         datetime.date: Date after adding years with business day adjustment.
+
+    Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime object.
     """  # noqa: E501
+    if not isinstance(date, (datetime.date, datetime.datetime)):
+        raise TypeError(
+            f"date must be a datetime.date or datetime.datetime object, not {type(date)}"
+        )
     return add_years_months(
         date,
         years,
@@ -215,7 +257,14 @@ def add_months(
 
     Returns:
         datetime.date: Date after adding months with business day adjustment.
+
+    Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime object.
     """  # noqa: E501
+    if not isinstance(date, (datetime.date, datetime.datetime)):
+        raise TypeError(
+            f"date must be a datetime.date or datetime.datetime object, not {type(date)}"
+        )
     return add_years_months(
         date,
         0,
@@ -225,3 +274,49 @@ def add_months(
         bizsom2bizsom=bizsom2bizsom,
         datetime_handler=datetime_handler,
     )
+
+
+def get_nth_bizday_of_month(
+    date: datetime.date | datetime.datetime,
+    n: int,
+    is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
+    *,
+    datetime_handler: Callable[[datetime.datetime], datetime.date] = datetime.datetime.date,  # noqa: E501
+) -> datetime.date:
+    """Get the n-th business day of the month for the given date.
+
+    Args:
+        date (datetime.date | datetime.datetime): Reference date.
+        n (int): The ordinal number of the business day to get (1-based).
+            Must be positive.
+        is_holiday (IsHolidayFuncType, optional): function to check if a date is a holiday.
+            Defaults to global_default_holiday_discriminator.
+        datetime_handler (Callable[[datetime.datetime], datetime.date], optional): function to convert
+            datetime.datetime to datetime.date. Defaults to datetime.datetime.date.
+
+    Returns:
+        datetime.date: The n-th business day of the month.
+
+    Raises:
+        ValueError: If n is not positive or if there are fewer than n business days in the month.
+    """  # noqa: E501
+    if isinstance(date, datetime.datetime):
+        date = datetime_handler(date)
+    
+    if n <= 0:
+        raise ValueError("n must be positive")
+    
+    # Start from the first day of the month
+    current_date = date.replace(day=1)
+    count = 0
+    
+    # Loop through days until we find the n-th business day
+    while current_date.month == date.month:
+        if not is_holiday(current_date):
+            count += 1
+            if count == n:
+                return current_date
+        current_date += datetime.timedelta(days=1)
+    
+    # If we get here, there weren't enough business days in the month
+    raise ValueError(f"Month {date.month} has fewer than {n} business days")
