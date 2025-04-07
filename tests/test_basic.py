@@ -796,3 +796,53 @@ def test_count_bizdays_with_datetime_obj_should_return_the_same_result_of_count_
         is_holiday,
         datetime_handler=handler,
     ) == count_bizdays(handled_start, handled_end, is_holiday)
+
+
+@pytest.mark.negative
+def test_get_next_bizday_should_raise_ValueError_if_no_next_bizday_found() -> None:
+    date = datetime.date.max - datetime.timedelta(days=10)
+    with pytest.raises(ValueError, match="No next business day found"):
+        get_next_bizday(date, is_holiday=lambda _: True)
+
+
+@pytest.mark.negative
+def test_get_prev_bizday_should_raise_ValueError_if_no_prev_bizday_found() -> None:
+    date = datetime.date.min + datetime.timedelta(days=10)
+    with pytest.raises(ValueError, match="No previous business day found"):
+        get_prev_bizday(date, is_holiday=lambda _: True)
+
+
+@pytest.mark.negative
+@pytest.mark.parametrize(
+    "d, n, expected_msg",
+    [
+        (datetime.date.max - datetime.timedelta(days=10), 1, "No next business day found: n = 1"),  # noqa: E501
+        (datetime.date.max - datetime.timedelta(days=10), 2, "No next business day found: n = 2"),  # noqa: E501
+        (datetime.date.min + datetime.timedelta(days=10), -1, "No previous business day found: n = 1"),  # noqa: E501
+    ]
+)
+def test_get_n_next_bizday_should_raise_ValueError_if_no_next_bizday_found(
+    d: datetime.date,
+    n: int,
+    expected_msg: str,
+) -> None:
+    with pytest.raises(ValueError, match=expected_msg):
+        get_n_next_bizday(d, n, is_holiday=lambda _: True)
+
+
+@pytest.mark.negative
+@pytest.mark.parametrize(
+    "d, n, expected_msg",
+    [
+        (datetime.date.min + datetime.timedelta(days=10), 1, "No previous business day found: n = 1"),  # noqa: E501
+        (datetime.date.min + datetime.timedelta(days=10), 2, "No previous business day found: n = 2"),  # noqa: E501
+        (datetime.date.max - datetime.timedelta(days=10), -1, "No next business day found: n = 1"),  # noqa: E501
+    ]
+)
+def test_get_n_prev_bizday_should_raise_ValueError_if_no_prev_bizday_found(
+    d: datetime.date,
+    n: int,
+    expected_msg: str,
+) -> None:
+    with pytest.raises(ValueError, match=expected_msg):
+        get_n_prev_bizday(d, n, is_holiday=lambda _: True)
