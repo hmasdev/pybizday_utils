@@ -126,7 +126,7 @@ def get_n_next_bizday(
         return date
     elif n > 0:
         try:
-            # NOTE: recursive implemantation may cause RecursionError when n is large.  # noqa: E501
+            # NOTE: recursive implementation may cause RecursionError when n is large.  # noqa: E501
             for _ in range(n):
                 date = get_next_bizday(date, is_holiday, datetime_handler=datetime_handler)  # noqa: E501
         except ValueError as e:
