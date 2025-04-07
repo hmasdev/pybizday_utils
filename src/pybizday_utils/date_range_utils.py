@@ -28,7 +28,17 @@ def date_range(
 
     Raises:
         ValueError: step_days is 0
+        TypeError: If start or end is not a datetime.date or datetime.datetime object.
     """  # noqa: E501
+    if not isinstance(start, (datetime.date, datetime.datetime)):
+        raise TypeError(
+            f"Expected datetime.date or datetime.datetime for start, got {type(start)}"
+        )
+    if end is not None and not isinstance(end, (datetime.date, datetime.datetime)):
+        raise TypeError(
+            f"Expected datetime.date or datetime.datetime for end, got {type(end)}"
+        )
+
     # validate step_days
     if step_days == 0:
         raise ValueError("step_days must not be 0")

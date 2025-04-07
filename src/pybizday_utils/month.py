@@ -34,7 +34,7 @@ def is_biz_end_of_month(
     """  # noqa: E501
     if not isinstance(date, (datetime.date, datetime.datetime)):
         raise TypeError(
-            f"date must be a datetime.date or datetime.datetime object, not {type(date)}"
+            f"Expected datetime.date or datetime.datetime, got {type(date)}"
         )
     if isinstance(date, datetime.datetime):
         date = datetime_handler(date)
@@ -66,7 +66,7 @@ def is_biz_start_of_month(
     """  # noqa: E501
     if not isinstance(date, (datetime.date, datetime.datetime)):
         raise TypeError(
-            f"date must be a datetime.date or datetime.datetime object, not {type(date)}"
+            f"Expected datetime.date or datetime.datetime, got {type(date)}"
         )
     if isinstance(date, datetime.datetime):
         date = datetime_handler(date)
@@ -98,7 +98,7 @@ def get_biz_end_of_month(
     """  # noqa: E501
     if not isinstance(date, (datetime.date, datetime.datetime)):
         raise TypeError(
-            f"date must be a datetime.date or datetime.datetime object, not {type(date)}"
+            f"Expected datetime.date or datetime.datetime, got {type(date)}"
         )
     if isinstance(date, datetime.datetime):
         date = datetime_handler(date)
@@ -131,7 +131,7 @@ def get_biz_start_of_month(
     """  # noqa: E501
     if not isinstance(date, (datetime.date, datetime.datetime)):
         raise TypeError(
-            f"date must be a datetime.date or datetime.datetime object, not {type(date)}"
+            f"Expected datetime.date or datetime.datetime, got {type(date)}"
         )
     if isinstance(date, datetime.datetime):
         date = datetime_handler(date)
@@ -173,7 +173,7 @@ def add_years_months(
     """  # noqa: E501
     if not isinstance(date, (datetime.date, datetime.datetime)):
         raise TypeError(
-            f"date must be a datetime.date or datetime.datetime object, not {type(date)}"
+            f"Expected datetime.date or datetime.datetime, got {type(date)}"
         )
     if isinstance(date, datetime.datetime):
         date = datetime_handler(date)
@@ -218,7 +218,7 @@ def add_years(
     """  # noqa: E501
     if not isinstance(date, (datetime.date, datetime.datetime)):
         raise TypeError(
-            f"date must be a datetime.date or datetime.datetime object, not {type(date)}"
+            f"Expected datetime.date or datetime.datetime, got {type(date)}"
         )
     return add_years_months(
         date,
@@ -263,7 +263,7 @@ def add_months(
     """  # noqa: E501
     if not isinstance(date, (datetime.date, datetime.datetime)):
         raise TypeError(
-            f"date must be a datetime.date or datetime.datetime object, not {type(date)}"
+            f"Expected datetime.date or datetime.datetime, got {type(date)}"
         )
     return add_years_months(
         date,

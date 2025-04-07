@@ -24,7 +24,14 @@ def is_bizday(
 
     Returns:
         bool: True if the date is a business day, False otherwise.
+
+    Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime object.
     """  # noqa: E501
+    if not isinstance(date, (datetime.date, datetime.datetime)):
+        raise TypeError(
+            f"Expected datetime.date or datetime.datetime, got {type(date)}"
+        )
     if isinstance(date, datetime.datetime):
         date = datetime_handler(date)
     return not is_holiday(date)
@@ -47,7 +54,14 @@ def get_next_bizday(
 
     Returns:
         datetime.date: Next business day after the given date.
+
+    Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime object.
     """  # noqa: E501
+    if not isinstance(date, (datetime.date, datetime.datetime)):
+        raise TypeError(
+            f"Expected datetime.date or datetime.datetime, got {type(date)}"
+        )
     if isinstance(date, datetime.datetime):
         date = datetime_handler(date)
     return next(dropwhile(is_holiday, date_range(date, include_start=False)))
@@ -70,7 +84,14 @@ def get_prev_bizday(
 
     Returns:
         datetime.date: Previous business day before the given date.
+
+    Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime object.
     """  # noqa: E501
+    if not isinstance(date, (datetime.date, datetime.datetime)):
+        raise TypeError(
+            f"Expected datetime.date or datetime.datetime, got {type(date)}"
+        )
     if isinstance(date, datetime.datetime):
         date = datetime_handler(date)
     return next(dropwhile(is_holiday, date_range(date, include_start=False, step_days=-1)))  # noqa: E501
@@ -100,6 +121,7 @@ def get_n_next_bizday(
 
     Raises:
         ValueError: If n=0 and the date is a holiday.
+        TypeError: If date is not a datetime.date or datetime.datetime object.
 
     Returns:
         datetime.date: n-th next business day after the given date.
@@ -107,6 +129,10 @@ def get_n_next_bizday(
     Notes:
         - If n is negative, it will return the (-n)-th previous business day.
     """  # noqa: E501
+    if not isinstance(date, (datetime.date, datetime.datetime)):
+        raise TypeError(
+            f"Expected datetime.date or datetime.datetime, got {type(date)}"
+        )
     if n == 0:
         if is_holiday(date):
             raise ValueError(f"n=0 but date={date} is holiday")
@@ -146,6 +172,7 @@ def get_n_prev_bizday(
 
     Raises:
         ValueError: If n=0 and the date is a holiday.
+        TypeError: If date is not a datetime.date or datetime.datetime object.
 
     Returns:
         datetime.date: n-th previous business day before the given date.
@@ -153,6 +180,10 @@ def get_n_prev_bizday(
     Notes:
         - If n is negative, it will return the (-n)-th next business day.
     """  # noqa: E501
+    if not isinstance(date, (datetime.date, datetime.datetime)):
+        raise TypeError(
+            f"Expected datetime.date or datetime.datetime, got {type(date)}"
+        )
     if n == 0:
         if is_holiday(date):
             raise ValueError(f"n=0 but date={date} is holiday")
@@ -194,7 +225,18 @@ def bizday_range(
     Notes:
         - if include_start is True and start is not a holiday, the start date will be included in the range.
         - if include_end is True and end is not a holiday, the end date will be included in the range.
+
+    Raises:
+        TypeError: If start or end is not a datetime.date or datetime.datetime object.
     """  # noqa: E501
+    if not isinstance(start, (datetime.date, datetime.datetime)):
+        raise TypeError(
+            f"Expected datetime.date or datetime.datetime for start, got {type(start)}"
+        )
+    if not isinstance(end, (datetime.date, datetime.datetime)):
+        raise TypeError(
+            f"Expected datetime.date or datetime.datetime for end, got {type(end)}"
+        )
     if isinstance(start, datetime.datetime):
         start = datetime_handler(start)
     if isinstance(end, datetime.datetime):
@@ -239,7 +281,18 @@ def count_bizdays(
         - if start > end, the count will be negative.
         - if include_start is True and start is not a holiday, the start date will be included in the count.
         - if include_end is True and end is not a holiday, the end date will be included in the count.
+
+    Raises:
+        TypeError: If start or end is not a datetime.date or datetime.datetime object.
     """  # noqa: E501
+    if not isinstance(start, (datetime.date, datetime.datetime)):
+        raise TypeError(
+            f"Expected datetime.date or datetime.datetime for start, got {type(start)}"
+        )
+    if not isinstance(end, (datetime.date, datetime.datetime)):
+        raise TypeError(
+            f"Expected datetime.date or datetime.datetime for end, got {type(end)}"
+        )
     if isinstance(start, datetime.datetime):
         start = datetime_handler(start)
     if isinstance(end, datetime.datetime):
