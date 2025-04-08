@@ -1,9 +1,10 @@
-# `pybizday_utils`: Python Business Day Utilities
+# `pybizday_utils`: Python Business Day Utilities :calendar: :calendar: :calendar:
 
 ![GitHub top language](https://img.shields.io/github/languages/top/hmasdev/pybizday_utils)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/hmasdev/pybizday_utils?sort=semver)
-![GitHub](https://img.shields.io/github/license/hmasdev/pybizday_utils)
+[![LICENSE](https://img.shields.io/github/license/hmasdev/pybizday_utils)](./LICENSE)
 ![GitHub last commit](https://img.shields.io/github/last-commit/hmasdev/pybizday_utils)
+[![Scheduled Test](https://github.com/hmasdev/pybizday_utils/actions/workflows/on-scheduled.yaml/badge.svg)](https://github.com/hmasdev/pybizday_utils/actions/workflows/on-scheduled.yaml)
 [![PyPI version](https://badge.fury.io/py/pybizday_utils.svg)](https://pypi.org/project/pybizday_utils/)
 
 `pybizday_utils` is a Python library that provides utilities for calculating business days, including the ability to customize holidays and workdays.
@@ -14,20 +15,20 @@ It is designed to be simple and easy to use, making it a great choice for develo
 ### Requirements
 
 - Python 3.10 or later
-- pip
+- `pip`
 - see [pyproject.toml](./pyproject.toml) for other dependencies
 
-### Install pybizday_utils with pip
+### Install `pybizday_utils` with pip
+
+```bash
+pip install -U pybizday_utils
+```
 
 ```bash
 pip install -U git+https://github.com/hmasdev/pybizday_utils.git
 ```
 
-or
-
-```bash
-pip install -U pybizday_utils
-```
+Note that the second command will install the latest version from the main branch, which may not be stable.
 
 ## How to Use
 
@@ -233,7 +234,7 @@ print(next_bizday)  # Output: 2025-04-03
 ### Development Requirements
 
 - Python 3.10 or later
-- uv
+- `uv`
 - see [pyproject.toml](./pyproject.toml) for other dependencies
 
 ### Development Steps
@@ -263,9 +264,26 @@ print(next_bizday)  # Output: 2025-04-03
 5. Test and lint your changes and check type hints:
 
    ```bash
-   uv run nox -s test  # or uv run pytest
-   uv run nox -s lint  # or uv run ruff check src tests
-   uv run nox -s mypy  # or uv run mypy src tests
+   uv run nox -s test
+   uv run nox -s lint
+   uv run nox -s mypy
+   ```
+
+   In above commands, each command is run with python 3.10, 3.11, 3.12, and 3.13.
+   If you want to run with a specific version, use `--python` option. For example:
+
+   ```bash
+   uv run nox -s test --python 3.10
+   uv run nox -s lint --python 3.11
+   uv run nox -s mypy --python 3.12
+   ```
+
+   or
+
+   ```bash
+   uv run pytest
+   uv run ruff check src tests
+   uv run mypy src tests
    ```
 
 6. Commit and push your changes:
