@@ -37,5 +37,5 @@ def test_validate_date_type_with_invalid_types(invalid_date: Any) -> None:
     """Test validate_date_type with invalid date types."""
     with pytest.raises(TypeError) as exc_info:
         validate_date_type(invalid_date)
-    assert "must be a datetime.date or datetime.datetime object" in str(exc_info.value)
+    assert "must be a datetime.date or datetime.datetime object" in str(exc_info.value)  # noqa: E501
     assert str(type(invalid_date)) in str(exc_info.value)
