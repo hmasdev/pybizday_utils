@@ -37,3 +37,5 @@ jobs:
       - name: Pytest
         run: |
           uv run pytest
+    permissions:
+      contents: read
