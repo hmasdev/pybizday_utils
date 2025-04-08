@@ -155,7 +155,14 @@ def test_get_prev_bizday(
         (
             datetime.date(2025, 4, 25),
             2,
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             datetime.date(2025, 4, 30),
         ),
         (
@@ -179,7 +186,14 @@ def test_get_prev_bizday(
         (
             datetime.date(2025, 4, 30),
             -2,
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             datetime.date(2025, 4, 25),
         ),
     ],
@@ -206,9 +220,9 @@ def test_get_n_next_bizday_with_large_n() -> None:
 @pytest.mark.negative
 def test_get_n_next_bizday_with_n_0_and_date_holiday() -> None:
     date = datetime.date(2025, 4, 25)
-    def is_holiday(d: datetime.date) -> bool: return True
+
     with pytest.raises(ValueError):
-        get_n_next_bizday(date, 0, is_holiday)
+        get_n_next_bizday(date, 0, is_holiday=lambda _: True)
 
 
 @pytest.mark.positive
@@ -278,7 +292,14 @@ def test_get_n_next_bizday_with_n_0_and_date_holiday() -> None:
         (
             datetime.date(2025, 4, 25),
             -2,
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             datetime.date(2025, 4, 30),
         ),
         (
@@ -302,7 +323,14 @@ def test_get_n_next_bizday_with_n_0_and_date_holiday() -> None:
         (
             datetime.date(2025, 4, 30),
             2,
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             datetime.date(2025, 4, 25),
         ),
     ],
@@ -329,9 +357,9 @@ def test_get_n_prev_bizday_with_large_n() -> None:
 @pytest.mark.negative
 def test_get_n_prev_bizday_with_n_0_and_date_holiday() -> None:
     date = datetime.date(2025, 4, 25)
-    def is_holiday(d: datetime.date) -> bool: return True
+
     with pytest.raises(ValueError):
-        get_n_prev_bizday(date, 0, is_holiday)
+        get_n_prev_bizday(date, 0, is_holiday=lambda _: True)
 
 
 @pytest.mark.positive
@@ -356,7 +384,14 @@ def test_get_n_prev_bizday_with_n_0_and_date_holiday() -> None:
         (
             datetime.date(2025, 4, 25),
             datetime.date(2025, 4, 30),
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             True,
             True,
             [
@@ -368,7 +403,14 @@ def test_get_n_prev_bizday_with_n_0_and_date_holiday() -> None:
         (
             datetime.date(2025, 4, 25),
             datetime.date(2025, 4, 30),
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             False,
             True,
             [
@@ -379,7 +421,14 @@ def test_get_n_prev_bizday_with_n_0_and_date_holiday() -> None:
         (
             datetime.date(2025, 4, 25),
             datetime.date(2025, 4, 30),
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             True,
             False,
             [
@@ -390,7 +439,14 @@ def test_get_n_prev_bizday_with_n_0_and_date_holiday() -> None:
         (
             datetime.date(2025, 4, 25),
             datetime.date(2025, 4, 30),
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             False,
             False,
             [
@@ -415,7 +471,14 @@ def test_get_n_prev_bizday_with_n_0_and_date_holiday() -> None:
         (
             datetime.date(2025, 4, 30),
             datetime.date(2025, 4, 25),
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             True,
             True,
             [
@@ -427,7 +490,14 @@ def test_get_n_prev_bizday_with_n_0_and_date_holiday() -> None:
         (
             datetime.date(2025, 4, 30),
             datetime.date(2025, 4, 25),
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             False,
             True,
             [
@@ -438,7 +508,14 @@ def test_get_n_prev_bizday_with_n_0_and_date_holiday() -> None:
         (
             datetime.date(2025, 4, 30),
             datetime.date(2025, 4, 25),
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             True,
             False,
             [
@@ -449,13 +526,20 @@ def test_get_n_prev_bizday_with_n_0_and_date_holiday() -> None:
         (
             datetime.date(2025, 4, 30),
             datetime.date(2025, 4, 25),
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             False,
             False,
             [
                 datetime.date(2025, 4, 28),
             ],
-        )
+        ),
     ],
 )
 def test_bizday_range(
@@ -466,13 +550,15 @@ def test_bizday_range(
     include_end: bool,
     expected: list[datetime.date],
 ) -> None:
-    actual = list(bizday_range(
-        start,
-        end,
-        is_holiday,
-        include_start=include_start,
-        include_end=include_end,
-    ))
+    actual = list(
+        bizday_range(
+            start,
+            end,
+            is_holiday,
+            include_start=include_start,
+            include_end=include_end,
+        )
+    )
     assert actual == expected
 
 
@@ -491,7 +577,14 @@ def test_bizday_range(
         (
             datetime.date(2025, 4, 25),
             datetime.date(2025, 4, 30),
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             True,
             True,
             3,
@@ -499,7 +592,14 @@ def test_bizday_range(
         (
             datetime.date(2025, 4, 25),
             datetime.date(2025, 4, 30),
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             False,
             True,
             2,
@@ -507,7 +607,14 @@ def test_bizday_range(
         (
             datetime.date(2025, 4, 25),
             datetime.date(2025, 4, 30),
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             True,
             False,
             2,
@@ -515,7 +622,14 @@ def test_bizday_range(
         (
             datetime.date(2025, 4, 25),
             datetime.date(2025, 4, 30),
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             False,
             False,
             1,
@@ -531,7 +645,14 @@ def test_bizday_range(
         (
             datetime.date(2025, 4, 30),
             datetime.date(2025, 4, 25),
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             True,
             True,
             -3,
@@ -539,7 +660,14 @@ def test_bizday_range(
         (
             datetime.date(2025, 4, 30),
             datetime.date(2025, 4, 25),
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             False,
             True,
             -2,
@@ -547,7 +675,14 @@ def test_bizday_range(
         (
             datetime.date(2025, 4, 30),
             datetime.date(2025, 4, 25),
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             True,
             False,
             -2,
@@ -555,11 +690,18 @@ def test_bizday_range(
         (
             datetime.date(2025, 4, 30),
             datetime.date(2025, 4, 25),
-            lambda d: d in {datetime.date(2025, 4, 26), datetime.date(2025, 4, 27), datetime.date(2025, 4, 29)},  # noqa
+            lambda d: (
+                d
+                in {
+                    datetime.date(2025, 4, 26),
+                    datetime.date(2025, 4, 27),
+                    datetime.date(2025, 4, 29),
+                }
+            ),
             False,
             False,
             -1,
-        )
+        ),
     ],
 )
 def test_count_bizdays(
@@ -582,7 +724,7 @@ def test_count_bizdays(
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'd, handler, is_holiday',
+    "d, handler, is_holiday",
     [
         (
             datetime.datetime(2021, 1, 1),
@@ -607,12 +749,14 @@ def test_is_bizday_with_datetime_obj_should_return_the_same_result_of_is_bizyday
     is_holiday: Callable[[datetime.date], bool],
 ) -> None:
     handled_d = handler(d)
-    assert is_bizday(d, is_holiday, datetime_handler=handler) == is_bizday(handled_d, is_holiday)  # noqa: E501
+    actual = is_bizday(d, is_holiday, datetime_handler=handler)
+    expected = is_bizday(handled_d, is_holiday)
+    assert actual == expected
 
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'd, handler, is_holiday',
+    "d, handler, is_holiday",
     [
         (
             datetime.datetime(2021, 1, 1),
@@ -637,12 +781,14 @@ def test_get_next_bizday_with_datetime_obj_should_return_the_same_result_of_get_
     is_holiday: Callable[[datetime.date], bool],
 ) -> None:
     handled_d = handler(d)
-    assert get_next_bizday(d, is_holiday, datetime_handler=handler) == get_next_bizday(handled_d, is_holiday)  # noqa: E501
+    actual = get_next_bizday(d, is_holiday, datetime_handler=handler)
+    expected = get_next_bizday(handled_d, is_holiday)
+    assert actual == expected
 
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'd, handler, is_holiday',
+    "d, handler, is_holiday",
     [
         (
             datetime.datetime(2021, 1, 1),
@@ -667,12 +813,14 @@ def test_get_prev_bizday_with_datetime_obj_should_return_the_same_result_of_get_
     is_holiday: Callable[[datetime.date], bool],
 ) -> None:
     handled_d = handler(d)
-    assert get_prev_bizday(d, is_holiday, datetime_handler=handler) == get_prev_bizday(handled_d, is_holiday)  # noqa: E501
+    actual = get_prev_bizday(d, is_holiday, datetime_handler=handler)
+    expected = get_prev_bizday(handled_d, is_holiday)
+    assert actual == expected
 
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'd, handler, n, is_holiday',
+    "d, handler, n, is_holiday",
     [
         (
             datetime.datetime(2021, 1, 1),
@@ -701,12 +849,14 @@ def test_get_n_next_bizday_with_datetime_obj_should_return_the_same_result_of_ge
     is_holiday: Callable[[datetime.date], bool],
 ) -> None:
     handled_d = handler(d)
-    assert get_n_next_bizday(d, n, is_holiday, datetime_handler=handler) == get_n_next_bizday(handled_d, n, is_holiday)  # noqa: E501
+    actual = get_n_next_bizday(d, n, is_holiday, datetime_handler=handler)
+    expected = get_n_next_bizday(handled_d, n, is_holiday)
+    assert actual == expected
 
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'd, handler, n, is_holiday',
+    "d, handler, n, is_holiday",
     [
         (
             datetime.datetime(2021, 1, 1),
@@ -735,12 +885,14 @@ def test_get_n_prev_bizday_with_datetime_obj_should_return_the_same_result_of_ge
     is_holiday: Callable[[datetime.date], bool],
 ) -> None:
     handled_d = handler(d)
-    assert get_n_prev_bizday(d, n, is_holiday, datetime_handler=handler) == get_n_prev_bizday(handled_d, n, is_holiday)  # noqa: E501
+    actual = get_n_prev_bizday(d, n, is_holiday, datetime_handler=handler)
+    expected = get_n_prev_bizday(handled_d, n, is_holiday)
+    assert actual == expected
 
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'start, end, handler, is_holiday',
+    "start, end, handler, is_holiday",
     [
         (
             datetime.datetime(2021, 1, 1),
@@ -770,17 +922,19 @@ def test_bizday_range_with_datetime_obj_should_return_the_same_result_of_bizday_
 ) -> None:
     handled_start = handler(start)
     handled_end = handler(end)
-    assert list(bizday_range(
+    actual = bizday_range(
         start,
         end,
         is_holiday,
         datetime_handler=handler,
-    )) == list(bizday_range(handled_start, handled_end, is_holiday))  # noqa: E501
+    )
+    expected = bizday_range(handled_start, handled_end, is_holiday)
+    assert list(actual) == list(expected)
 
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'start, end, handler, is_holiday',
+    "start, end, handler, is_holiday",
     [
         (
             datetime.datetime(2021, 1, 1),
@@ -810,12 +964,9 @@ def test_count_bizdays_with_datetime_obj_should_return_the_same_result_of_count_
 ) -> None:
     handled_start = handler(start)
     handled_end = handler(end)
-    assert count_bizdays(
-        start,
-        end,
-        is_holiday,
-        datetime_handler=handler,
-    ) == count_bizdays(handled_start, handled_end, is_holiday)
+    actual = count_bizdays(start, end, is_holiday, datetime_handler=handler)
+    expected = count_bizdays(handled_start, handled_end, is_holiday)
+    assert actual == expected
 
 
 @pytest.mark.negative
@@ -836,10 +987,22 @@ def test_get_prev_bizday_should_raise_ValueError_if_no_prev_bizday_found() -> No
 @pytest.mark.parametrize(
     "d, n, expected_msg",
     [
-        (datetime.date.max - datetime.timedelta(days=10), 1, "No 1-th next business day found"),  # noqa: E501
-        (datetime.date.max - datetime.timedelta(days=10), 2, "No 2-th next business day found"),  # noqa: E501
-        (datetime.date.min + datetime.timedelta(days=10), -1, "No 1-th previous business day found"),  # noqa: E501
-    ]
+        (
+            datetime.date.max - datetime.timedelta(days=10),
+            1,
+            "No 1-th next business day found",
+        ),
+        (
+            datetime.date.max - datetime.timedelta(days=10),
+            2,
+            "No 2-th next business day found",
+        ),
+        (
+            datetime.date.min + datetime.timedelta(days=10),
+            -1,
+            "No 1-th previous business day found",
+        ),
+    ],
 )
 def test_get_n_next_bizday_should_raise_ValueError_if_no_next_bizday_found(
     d: datetime.date,
@@ -854,10 +1017,22 @@ def test_get_n_next_bizday_should_raise_ValueError_if_no_next_bizday_found(
 @pytest.mark.parametrize(
     "d, n, expected_msg",
     [
-        (datetime.date.min + datetime.timedelta(days=10), 1, "No 1-th previous business day found"),  # noqa: E501
-        (datetime.date.min + datetime.timedelta(days=10), 2, "No 2-th previous business day found"),  # noqa: E501
-        (datetime.date.max - datetime.timedelta(days=10), -1, "No 1-th next business day found"),  # noqa: E501
-    ]
+        (
+            datetime.date.min + datetime.timedelta(days=10),
+            1,
+            "No 1-th previous business day found",
+        ),
+        (
+            datetime.date.min + datetime.timedelta(days=10),
+            2,
+            "No 2-th previous business day found",
+        ),
+        (
+            datetime.date.max - datetime.timedelta(days=10),
+            -1,
+            "No 1-th next business day found",
+        ),
+    ],
 )
 def test_get_n_prev_bizday_should_raise_ValueError_if_no_prev_bizday_found(
     d: datetime.date,

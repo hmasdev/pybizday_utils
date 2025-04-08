@@ -26,6 +26,9 @@ def is_bizday(
             function to convert datetime.datetime to datetime.date.
             Defaults to datetime.datetime.date.
 
+    Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime.
+
     Returns:
         bool: True if the date is a business day, False otherwise.
     """
@@ -54,6 +57,7 @@ def get_next_bizday(
             Defaults to datetime.datetime.date.
 
     Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime.
         ValueError: If no next business day is found.
 
     Returns:
@@ -65,7 +69,7 @@ def get_next_bizday(
     try:
         return next(dropwhile(is_holiday, date_range(date, include_start=False)))
     except StopIteration as e:
-        raise ValueError('No next business day found') from e
+        raise ValueError("No next business day found") from e
 
 
 def get_prev_bizday(
@@ -87,6 +91,7 @@ def get_prev_bizday(
             Defaults to datetime.datetime.date.
 
     Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime.
         ValueError: If no previous business day is found.
 
     Returns:
@@ -99,11 +104,11 @@ def get_prev_bizday(
         return next(
             dropwhile(
                 is_holiday,
-                date_range(date, include_start=False, step_days=-1)
+                date_range(date, include_start=False, step_days=-1),
             )
         )
     except StopIteration as e:
-        raise ValueError('No previous business day found') from e
+        raise ValueError("No previous business day found") from e
 
 
 def get_n_next_bizday(
@@ -132,6 +137,7 @@ def get_n_next_bizday(
             Defaults to datetime.datetime.date.
 
     Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime.
         ValueError: If n=0 and the date is a holiday.
         ValueError: If no n-th next business day is found.
 
@@ -156,13 +162,13 @@ def get_n_next_bizday(
             if remaining_days == 0:
                 return d
         else:
-            raise ValueError(f'No {n}-th next business day found')
+            raise ValueError(f"No {n}-th next business day found")
     else:
         return get_n_prev_bizday(
             date,
             -n,
             is_holiday,
-            datetime_handler=datetime_handler
+            datetime_handler=datetime_handler,
         )
 
 
@@ -192,6 +198,7 @@ def get_n_prev_bizday(
             Defaults to datetime.datetime.date.
 
     Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime.
         ValueError: If n=0 and the date is a holiday.
         ValueError: If no n-th previous business day is found.
 
@@ -216,13 +223,13 @@ def get_n_prev_bizday(
             if remaining_days == 0:
                 return d
         else:
-            raise ValueError(f'No {n}-th previous business day found')
+            raise ValueError(f"No {n}-th previous business day found")
     else:
         return get_n_next_bizday(
             date,
             -n,
             is_holiday,
-            datetime_handler=datetime_handler
+            datetime_handler=datetime_handler,
         )
 
 
@@ -251,6 +258,9 @@ def bizday_range(
         datetime_handler (Callable[[datetime.datetime], datetime.date], optional):
             function to convert datetime.datetime to datetime.date.
             Defaults to datetime.datetime.date.
+
+    Raises:
+        TypeError: If start or end is not a datetime.date or datetime.datetime.
 
     Yields:
         Generator[datetime.date, None, None]: Business days between start and end
@@ -306,6 +316,9 @@ def count_bizdays(
             function to convert datetime.datetime to datetime.date.
             Defaults to datetime.datetime.date.
 
+    Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime.
+
     Returns:
         int: Number of business days between start and end dates.
 
@@ -329,7 +342,7 @@ def count_bizdays(
             is_holiday,
             include_end=include_start,
             include_start=include_end,
-            datetime_handler=datetime_handler
+            datetime_handler=datetime_handler,
         )
     bdrange = bizday_range(
         start,
@@ -337,6 +350,6 @@ def count_bizdays(
         is_holiday,
         include_start=include_start,
         include_end=include_end,
-        datetime_handler=datetime_handler
+        datetime_handler=datetime_handler,
     )
     return sum(1 for _ in bdrange)

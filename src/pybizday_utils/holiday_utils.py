@@ -167,7 +167,10 @@ class HolidayDiscriminator:
         # check duplicates
         for name in dic.keys():
             if not allow_overwrite and name in self._is_holiday_funcs:
-                raise ValueError(f"Function with name '{name}' already exists. Set allow_overwrite=True to overwrite.")  # noqa
+                raise ValueError(
+                    f"Function with name '{name}' already exists. "
+                    "Set allow_overwrite=True to overwrite."
+                )
         # add the new functions
         for name, is_holiday_func in dic.items():
             # TODO: more strict type checking

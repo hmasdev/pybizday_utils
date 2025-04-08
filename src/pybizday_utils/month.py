@@ -15,7 +15,10 @@ def is_biz_end_of_month(
     date: datetime.date | datetime.datetime,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
     *,
-    datetime_handler: Callable[[datetime.datetime], datetime.date] = datetime.datetime.date,  # noqa: E501
+    datetime_handler: Callable[
+        [datetime.datetime],
+        datetime.date,
+    ] = datetime.datetime.date,
 ) -> bool:
     """Check if the given date is the last business day of the month.
 
@@ -40,7 +43,10 @@ def is_biz_start_of_month(
     date: datetime.date | datetime.datetime,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
     *,
-    datetime_handler: Callable[[datetime.datetime], datetime.date] = datetime.datetime.date,  # noqa: E501
+    datetime_handler: Callable[
+        [datetime.datetime],
+        datetime.date,
+    ] = datetime.datetime.date,
 ) -> bool:
     """Check if the given date is the first business day of the month.
 
@@ -65,7 +71,10 @@ def get_biz_end_of_month(
     date: datetime.date | datetime.datetime,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
     *,
-    datetime_handler: Callable[[datetime.datetime], datetime.date] = datetime.datetime.date,  # noqa: E501
+    datetime_handler: Callable[
+        [datetime.datetime],
+        datetime.date,
+    ] = datetime.datetime.date,
 ) -> datetime.date:
     """Get the last business day of the month for the given date.
 
@@ -91,7 +100,10 @@ def get_biz_start_of_month(
     date: datetime.date | datetime.datetime,
     is_holiday: IsHolidayFuncType = global_default_holiday_discriminator,
     *,
-    datetime_handler: Callable[[datetime.datetime], datetime.date] = datetime.datetime.date,  # noqa: E501
+    datetime_handler: Callable[
+        [datetime.datetime],
+        datetime.date,
+    ] = datetime.datetime.date,
 ) -> datetime.date:
     """Get the first business day of the month for the given date.
 
@@ -120,7 +132,10 @@ def add_years_months(
     *,
     bizeom2bizeom: bool = True,
     bizsom2bizsom: bool = False,
-    datetime_handler: Callable[[datetime.datetime], datetime.date] = datetime.datetime.date,  # noqa: E501
+    datetime_handler: Callable[
+        [datetime.datetime],
+        datetime.date,
+    ] = datetime.datetime.date,
 ) -> datetime.date:
     """Add years and months to a date with business day adjustment.
 
@@ -158,7 +173,10 @@ def add_years(
     *,
     bizeom2bizeom: bool = True,
     bizsom2bizsom: bool = False,
-    datetime_handler: Callable[[datetime.datetime], datetime.date] = datetime.datetime.date,  # noqa: E501
+    datetime_handler: Callable[
+        [datetime.datetime],
+        datetime.date,
+    ] = datetime.datetime.date,
 ) -> datetime.date:
     """Add years to a date with business day adjustment.
     This function is a wrapper around add_years_months with months set to 0.
@@ -196,7 +214,10 @@ def add_months(
     *,
     bizeom2bizeom: bool = True,
     bizsom2bizsom: bool = False,
-    datetime_handler: Callable[[datetime.datetime], datetime.date] = datetime.datetime.date,  # noqa: E501
+    datetime_handler: Callable[
+        [datetime.datetime],
+        datetime.date,
+    ] = datetime.datetime.date,
 ) -> datetime.date:
     """Add months to a date with business day adjustment.
     This function is a wrapper around add_years_months with years set to 0.

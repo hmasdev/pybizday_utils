@@ -118,4 +118,6 @@ global_default_holiday_discriminator.add_is_holiday_funcs(
     allow_overwrite=True,
 )
 add_global_is_holiday_funcs = global_default_holiday_discriminator.add_is_holiday_funcs  # noqa: E501
-remove_global_is_holiday_funcs = global_default_holiday_discriminator.remove_is_holiday_funcs  # noqa: E501
+remove_global_is_holiday_funcs = (
+    global_default_holiday_discriminator.remove_is_holiday_funcs
+)
