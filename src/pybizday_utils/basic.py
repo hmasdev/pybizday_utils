@@ -26,6 +26,9 @@ def is_bizday(
             function to convert datetime.datetime to datetime.date.
             Defaults to datetime.datetime.date.
 
+    Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime.
+
     Returns:
         bool: True if the date is a business day, False otherwise.
     """
@@ -54,6 +57,7 @@ def get_next_bizday(
             Defaults to datetime.datetime.date.
 
     Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime.
         ValueError: If no next business day is found.
 
     Returns:
@@ -87,6 +91,7 @@ def get_prev_bizday(
             Defaults to datetime.datetime.date.
 
     Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime.
         ValueError: If no previous business day is found.
 
     Returns:
@@ -132,6 +137,7 @@ def get_n_next_bizday(
             Defaults to datetime.datetime.date.
 
     Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime.
         ValueError: If n=0 and the date is a holiday.
         ValueError: If no n-th next business day is found.
 
@@ -192,6 +198,7 @@ def get_n_prev_bizday(
             Defaults to datetime.datetime.date.
 
     Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime.
         ValueError: If n=0 and the date is a holiday.
         ValueError: If no n-th previous business day is found.
 
@@ -252,6 +259,9 @@ def bizday_range(
             function to convert datetime.datetime to datetime.date.
             Defaults to datetime.datetime.date.
 
+    Raises:
+        TypeError: If start or end is not a datetime.date or datetime.datetime.
+
     Yields:
         Generator[datetime.date, None, None]: Business days between start and end
             dates.
@@ -305,6 +315,9 @@ def count_bizdays(
         datetime_handler (Callable[[datetime.datetime], datetime.date], optional):
             function to convert datetime.datetime to datetime.date.
             Defaults to datetime.datetime.date.
+
+    Raises:
+        TypeError: If date is not a datetime.date or datetime.datetime.
 
     Returns:
         int: Number of business days between start and end dates.

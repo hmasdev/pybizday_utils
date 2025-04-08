@@ -33,9 +33,11 @@ def date_range(
 
     Raises:
         ValueError: step_days is 0
+        TypeError: If start or end is not a datetime.date or datetime.datetime.
 
     Notes:
-        the generator will stop when it reaches out of range, that is, when the date is greater than date.max or less than date.min.
+        - the generator will stop when it reaches out of range, that is,
+          when the date is greater than date.max or less than date.min.
     """
     # validate step_days
     if step_days == 0:
