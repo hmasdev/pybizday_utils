@@ -1,4 +1,4 @@
-# `pybizday_utils`: Python Business Day Utilities :calendar: :calendar: :calendar:
+# `pybizday_utils`: Python Business Day Utilities :calendar:
 
 ![GitHub top language](https://img.shields.io/github/languages/top/hmasdev/pybizday_utils)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/hmasdev/pybizday_utils?sort=semver)
@@ -29,6 +29,10 @@ pip install -U git+https://github.com/hmasdev/pybizday_utils.git
 ```
 
 Note that the second command will install the latest version from the main branch, which may not be stable.
+
+### Install `pybizday_utils` by building from source
+
+See [How to Build](#how-to-build) section for more details.
 
 ## How to Use
 
@@ -237,7 +241,7 @@ print(next_bizday)  # Output: 2025-04-03
 - `uv`
 - see [pyproject.toml](./pyproject.toml) for other dependencies
 
-### Development Steps
+### How to Develop
 
 1. Fork the repository: [https://github.com/hmasdev/pybizday_utils/fork](https://github.com/hmasdev/pybizday_utils/fork)
 2. Clone the forked repository:
@@ -296,6 +300,80 @@ print(next_bizday)  # Output: 2025-04-03
    ```
 
 7. [Create a pull request](https://github.com/hmasdev/pybizday_utils/compare) to the main repository.
+
+### How to Build
+
+1. Clone the forked repository:
+
+   ```bash
+   git clone https://github.com/hmasdev/pybizday_utils
+   cd pybizday_utils
+   ```
+
+2. (optional) Checkout the branch you want to build:
+
+   ```bash
+   git switch {BRANCH_NAME}
+   # or
+   # git checkout {BRANCH_NAME_OR_COMMIT_HASH}
+   ```
+
+3. Setup the development environment:
+
+   ```bash
+   uv sync --dev
+   ```
+
+4. Build the package:
+
+   ```bash
+   uv build
+   ```
+
+5. See the built package in `dist` directory.
+
+6. (optional) Upload the package to PyPI:
+
+   ```bash
+   uv run twine upload dist/*
+   ```
+
+   Note that `TWINE_USERNAME`, `TWINE_PASSWORD` and `TWINE_REPOSITORY_URL` environment variables must be set to valid values for [pybizday-utils](https://pypi.org/project/pybizday-utils/) project.
+
+### How to Check the Code Performance
+
+`check_performance.py` is provided to check the performance of the library.
+
+This script measures the elapsed time of `get_n_next_bizday` functions with different values of `n` and `date` given in the command line arguments.
+
+1. Clone the forked repository:
+
+   ```bash
+   git clone https://github.com/hmasdev/pybizday_utils
+   cd pybizday_utils
+   ```
+
+2. (optional) Checkout the branch you want to build:
+
+   ```bash
+   git switch {BRANCH_NAME}
+   # or
+   # git checkout {BRANCH_NAME_OR_COMMIT_HASH}
+   ```
+
+3. Setup the development environment:
+
+   ```bash
+   uv sync --dev
+   ```
+
+4. Run the script:
+
+   ```bash
+   uv run check_performance.py --n 100000 --date 2025-01-01 --n-trials 100
+   ```
+
+   In this case, the command measures the elapsed time to calculate the 100,000-th business day after 2025-01-01, and repeat it 100 times.
 
 ## License
 
