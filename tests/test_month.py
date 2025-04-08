@@ -18,7 +18,7 @@ from pybizday_utils.month import (
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'd,is_holiday,expected',
+    "d,is_holiday,expected",
     [
         # Case: everyday is not holiday
         (date(2023, 1, 31), lambda _: False, True),
@@ -45,7 +45,6 @@ from pybizday_utils.month import (
         (date(2023, 10, 30), lambda _: False, False),
         (date(2023, 11, 29), lambda _: False, False),
         (date(2023, 12, 30), lambda _: False, False),
-
         # Case: specify is_holiday function
         (date(2023, 1, 31), lambda d: d == date(2023, 1, 31), False),
         (date(2023, 1, 30), lambda d: d == date(2023, 1, 31), True),
@@ -83,7 +82,6 @@ from pybizday_utils.month import (
         (date(2023, 12, 31), lambda d: d == date(2023, 12, 31), False),
         (date(2023, 12, 30), lambda d: d == date(2023, 12, 31), True),
         (date(2023, 12, 29), lambda d: d == date(2023, 12, 31), False),
-
         # Case: actual. Saturday and Sunday are holidays
         (date(2024, 11, 30), lambda d: d.weekday() in {5, 6}, False),
         (date(2024, 11, 29), lambda d: d.weekday() in {5, 6}, True),
@@ -102,7 +100,7 @@ def test_is_biz_end_of_month(
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'd,is_holiday,expected',
+    "d,is_holiday,expected",
     [
         # Case: everyday is not holiday
         (date(2023, 1, 1), lambda _: False, True),
@@ -129,7 +127,6 @@ def test_is_biz_end_of_month(
         (date(2023, 10, 2), lambda _: False, False),
         (date(2023, 11, 2), lambda _: False, False),
         (date(2023, 12, 2), lambda _: False, False),
-
         # Case: specify is_holiday function
         (date(2023, 1, 1), lambda d: d == date(2023, 1, 1), False),
         (date(2023, 1, 2), lambda d: d == date(2023, 1, 1), True),
@@ -167,14 +164,13 @@ def test_is_biz_end_of_month(
         (date(2023, 12, 1), lambda d: d == date(2023, 12, 1), False),
         (date(2023, 12, 2), lambda d: d == date(2023, 12, 1), True),
         (date(2023, 12, 3), lambda d: d == date(2023, 12, 1), False),
-
         # Case: actual. Saturday and Sunday are holidays
         (date(2024, 12, 1), lambda d: d.weekday() in {5, 6}, False),
         (date(2024, 12, 2), lambda d: d.weekday() in {5, 6}, True),
         (date(2024, 12, 3), lambda d: d.weekday() in {5, 6}, False),
         (date(2024, 11, 1), lambda d: d.weekday() in {5, 6}, True),
         (date(2024, 11, 2), lambda d: d.weekday() in {5, 6}, False),
-    ]
+    ],
 )
 def test_is_biz_start_of_month(
     d: date,
@@ -186,7 +182,7 @@ def test_is_biz_start_of_month(
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'd,is_holiday,expected',
+    "d,is_holiday,expected",
     [
         # Case: everyday is not holiday
         (date(2023, 1, 1), lambda _: False, date(2023, 1, 1)),
@@ -213,7 +209,6 @@ def test_is_biz_start_of_month(
         (date(2023, 11, 30), lambda _: False, date(2023, 11, 1)),
         (date(2023, 12, 1), lambda _: False, date(2023, 12, 1)),
         (date(2023, 12, 31), lambda _: False, date(2023, 12, 1)),
-
         # Case: specify is_holiday function
         (date(2023, 1, 1), lambda d: d == date(2023, 1, 1), date(2023, 1, 2)),
         (date(2023, 1, 2), lambda d: d == date(2023, 1, 1), date(2023, 1, 2)),
@@ -251,7 +246,7 @@ def test_is_biz_start_of_month(
         (date(2023, 12, 1), lambda d: d == date(2023, 12, 1), date(2023, 12, 2)),
         (date(2023, 12, 2), lambda d: d == date(2023, 12, 1), date(2023, 12, 2)),
         (date(2023, 12, 31), lambda d: d == date(2023, 12, 1), date(2023, 12, 2)),
-    ]
+    ],
 )
 def test_get_biz_start_of_month(
     d: date,
@@ -292,7 +287,6 @@ def test_get_biz_start_of_month(
         (date(2023, 12, 31), lambda _: False, date(2023, 12, 31)),
         (date(2024, 2, 1), lambda _: False, date(2024, 2, 29)),
         (date(2024, 2, 29), lambda _: False, date(2024, 2, 29)),
-
         # Case: specify is_holiday function
         (date(2023, 1, 1), lambda d: d == date(2023, 1, 31), date(2023, 1, 30)),
         (date(2023, 1, 30), lambda d: d == date(2023, 1, 31), date(2023, 1, 30)),
@@ -330,7 +324,7 @@ def test_get_biz_start_of_month(
         (date(2023, 12, 1), lambda d: d == date(2023, 12, 31), date(2023, 12, 30)),  # noqa: E501
         (date(2023, 12, 30), lambda d: d == date(2023, 12, 31), date(2023, 12, 30)),  # noqa: E501
         (date(2023, 12, 31), lambda d: d == date(2023, 12, 31), date(2023, 12, 30)),  # noqa: E501
-    ]
+    ],
 )
 def test_get_biz_end_of_month(
     d: date,
@@ -342,7 +336,7 @@ def test_get_biz_end_of_month(
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'd,years,months,is_holiday,expected',
+    "d,years,months,is_holiday,expected",
     [
         (date(2024, 2, 1), 0, 0, lambda _: False, date(2024, 2, 1)),
         (date(2024, 2, 15), 0, 0, lambda _: False, date(2024, 2, 15)),
@@ -359,7 +353,7 @@ def test_get_biz_end_of_month(
         (date(2024, 2, 28), 0, -2, lambda _: False, date(2023, 12, 28)),
         (date(2024, 2, 29), 0, -2, lambda _: False, date(2023, 12, 29)),
         (date(2024, 3, 31), 0, -2, lambda _: False, date(2024, 1, 31)),
-    ]
+    ],
 )
 def test_add_years_months_with_bizeom2bizeomFalse_bizsom2bizsomFalse(
     d: date,
@@ -368,12 +362,20 @@ def test_add_years_months_with_bizeom2bizeomFalse_bizsom2bizsomFalse(
     is_holiday: Callable[[date], bool],
     expected: date,
 ) -> None:
-    assert add_years_months(d, years, months, is_holiday, bizeom2bizeom=False, bizsom2bizsom=False) == expected  # noqa: E501
+    actual = add_years_months(
+        d,
+        years,
+        months,
+        is_holiday,
+        bizeom2bizeom=False,
+        bizsom2bizsom=False,
+    )
+    assert actual == expected
 
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'd,years,months,is_holiday,expected',
+    "d,years,months,is_holiday,expected",
     [
         (date(2024, 2, 1), 0, 0, lambda _: False, date(2024, 2, 1)),
         (date(2024, 2, 15), 0, 0, lambda _: False, date(2024, 2, 15)),
@@ -411,7 +413,7 @@ def test_add_years_months_with_bizeom2bizeomFalse_bizsom2bizsomFalse(
         (date(2024, 2, 29), 1, 0, lambda d: d == date(2025, 2, 28), date(2025, 2, 27)),  # noqa: E501
         (date(2024, 3, 31), 1, 0, lambda d: d == date(2025, 3, 31), date(2025, 3, 30)),  # noqa: E501
         (date(2025, 2, 28), -1, 0, lambda _: False, date(2024, 2, 29)),
-    ]
+    ],
 )
 def test_add_years_months_with_bizeom2bizeomTrue_bizsom2bizsomTrue(
     d: date,
@@ -420,12 +422,20 @@ def test_add_years_months_with_bizeom2bizeomTrue_bizsom2bizsomTrue(
     is_holiday: Callable[[date], bool],
     expected: date,
 ) -> None:
-    assert add_years_months(d, years, months, is_holiday, bizeom2bizeom=True, bizsom2bizsom=True) == expected  # noqa: E501
+    actual = add_years_months(
+        d,
+        years,
+        months,
+        is_holiday,
+        bizeom2bizeom=True,
+        bizsom2bizsom=True,
+    )
+    assert actual == expected
 
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'date, months, is_holiday, bizeom2bizeom, bizsom2bizsom',
+    "date, months, is_holiday, bizeom2bizeom, bizsom2bizsom",
     [
         (
             date(2023, 1, 1),
@@ -483,7 +493,7 @@ def test_add_years_months_with_bizeom2bizeomTrue_bizsom2bizsomTrue(
             True,
             False,
         ),
-    ]
+    ],
 )
 def test_add_months(
     date: date,
@@ -494,12 +504,15 @@ def test_add_months(
     mocker: MockerFixture,
 ) -> None:
     # Spy on the add_years_months function to verify its usage
-    add_years_months_spy = mocker.spy(
-        pybizday_utils.month,
-        'add_years_months'
-    )
+    add_years_months_spy = mocker.spy(pybizday_utils.month, "add_years_months")
     # Call the add_months function
-    _ = add_months(date, months, is_holiday, bizeom2bizeom=bizeom2bizeom, bizsom2bizsom=bizsom2bizsom)  # noqa: E501
+    _ = add_months(
+        date,
+        months,
+        is_holiday,
+        bizeom2bizeom=bizeom2bizeom,
+        bizsom2bizsom=bizsom2bizsom,
+    )
     # Assert
     add_years_months_spy.assert_called_once_with(
         date,
@@ -514,7 +527,7 @@ def test_add_months(
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'date, years, is_holiday, bizeom2bizeom, bizsom2bizsom',
+    "date, years, is_holiday, bizeom2bizeom, bizsom2bizsom",
     [
         (
             date(2023, 1, 1),
@@ -572,7 +585,7 @@ def test_add_months(
             True,
             False,
         ),
-    ]
+    ],
 )
 def test_add_years(
     date: date,
@@ -583,12 +596,15 @@ def test_add_years(
     mocker: MockerFixture,
 ) -> None:
     # Spy on the add_years_months function to verify its usage
-    add_years_months_spy = mocker.spy(
-        pybizday_utils.month,
-        'add_years_months'
-    )
+    add_years_months_spy = mocker.spy(pybizday_utils.month, "add_years_months")
     # Call the add_years function
-    _ = add_years(date, years, is_holiday, bizeom2bizeom=bizeom2bizeom, bizsom2bizsom=bizsom2bizsom)  # noqa: E501
+    _ = add_years(
+        date,
+        years,
+        is_holiday,
+        bizeom2bizeom=bizeom2bizeom,
+        bizsom2bizsom=bizsom2bizsom,
+    )
     # Assert
     add_years_months_spy.assert_called_once_with(
         date,
@@ -603,14 +619,30 @@ def test_add_years(
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'd,is_holiday,handler',
+    "d,is_holiday,handler",
     [
         (datetime(2023, 1, 1, 12), lambda _: False, datetime.date),
-        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=1)).date()),  # noqa: E501
-        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=2)).date()),  # noqa: E501
-        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=3)).date()),  # noqa: E501
-        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=4)).date()),  # noqa: E501
-    ]
+        (
+            datetime(2023, 1, 1, 12),
+            lambda _: False,
+            lambda x: (x + timedelta(days=1)).date(),
+        ),
+        (
+            datetime(2023, 1, 1, 12),
+            lambda _: False,
+            lambda x: (x + timedelta(days=2)).date(),
+        ),
+        (
+            datetime(2023, 1, 1, 12),
+            lambda _: False,
+            lambda x: (x + timedelta(days=3)).date(),
+        ),
+        (
+            datetime(2023, 1, 1, 12),
+            lambda _: False,
+            lambda x: (x + timedelta(days=4)).date(),
+        ),
+    ],
 )
 def test_is_biz_end_of_month_with_datetime_obj_should_return_the_same_result_of_is_biz_end_of_month_with_handled_date(  # noqa: E501
     d: datetime,
@@ -618,19 +650,37 @@ def test_is_biz_end_of_month_with_datetime_obj_should_return_the_same_result_of_
     handler: Callable[[datetime], date],
 ) -> None:
     handled = handler(d)
-    assert is_biz_end_of_month(d, is_holiday, datetime_handler=handler) == is_biz_end_of_month(handled, is_holiday)  # noqa: E501
+    actual = is_biz_end_of_month(d, is_holiday, datetime_handler=handler)
+    expected = is_biz_end_of_month(handled, is_holiday)
+    assert actual == expected
 
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'd,is_holiday,handler',
+    "d,is_holiday,handler",
     [
         (datetime(2023, 1, 1, 12), lambda _: False, datetime.date),
-        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=1)).date()),  # noqa: E501
-        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=2)).date()),  # noqa: E501
-        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=3)).date()),  # noqa: E501
-        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=4)).date()),  # noqa: E501
-    ]
+        (
+            datetime(2023, 1, 1, 12),
+            lambda _: False,
+            lambda x: (x + timedelta(days=1)).date(),
+        ),
+        (
+            datetime(2023, 1, 1, 12),
+            lambda _: False,
+            lambda x: (x + timedelta(days=2)).date(),
+        ),
+        (
+            datetime(2023, 1, 1, 12),
+            lambda _: False,
+            lambda x: (x + timedelta(days=3)).date(),
+        ),
+        (
+            datetime(2023, 1, 1, 12),
+            lambda _: False,
+            lambda x: (x + timedelta(days=4)).date(),
+        ),
+    ],
 )
 def test_is_biz_start_of_month_with_datetime_obj_should_return_the_same_result_of_is_biz_start_of_month_with_handled_date(  # noqa: E501
     d: datetime,
@@ -638,19 +688,37 @@ def test_is_biz_start_of_month_with_datetime_obj_should_return_the_same_result_o
     handler: Callable[[datetime], date],
 ) -> None:
     handled = handler(d)
-    assert is_biz_start_of_month(d, is_holiday, datetime_handler=handler) == is_biz_start_of_month(handled, is_holiday)  # noqa: E501
+    actual = is_biz_start_of_month(d, is_holiday, datetime_handler=handler)
+    expected = is_biz_start_of_month(handled, is_holiday)
+    assert actual == expected
 
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'd,is_holiday,handler',
+    "d,is_holiday,handler",
     [
         (datetime(2023, 1, 1, 12), lambda _: False, datetime.date),
-        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=1)).date()),  # noqa: E501
-        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=2)).date()),  # noqa: E501
-        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=3)).date()),  # noqa: E501
-        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=4)).date()),  # noqa: E501
-    ]
+        (
+            datetime(2023, 1, 1, 12),
+            lambda _: False,
+            lambda x: (x + timedelta(days=1)).date(),
+        ),
+        (
+            datetime(2023, 1, 1, 12),
+            lambda _: False,
+            lambda x: (x + timedelta(days=2)).date(),
+        ),
+        (
+            datetime(2023, 1, 1, 12),
+            lambda _: False,
+            lambda x: (x + timedelta(days=3)).date(),
+        ),
+        (
+            datetime(2023, 1, 1, 12),
+            lambda _: False,
+            lambda x: (x + timedelta(days=4)).date(),
+        ),
+    ],
 )
 def test_get_biz_end_of_month_with_datetime_obj_should_return_the_same_result_of_get_biz_end_of_month_with_handled_date(  # noqa: E501
     d: datetime,
@@ -658,19 +726,37 @@ def test_get_biz_end_of_month_with_datetime_obj_should_return_the_same_result_of
     handler: Callable[[datetime], date],
 ) -> None:
     handled = handler(d)
-    assert get_biz_end_of_month(d, is_holiday, datetime_handler=handler) == get_biz_end_of_month(handled, is_holiday)  # noqa: E501
+    actual = get_biz_end_of_month(d, is_holiday, datetime_handler=handler)
+    expected = get_biz_end_of_month(handled, is_holiday)
+    assert actual == expected
 
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'd,is_holiday,handler',
+    "d,is_holiday,handler",
     [
         (datetime(2023, 1, 1, 12), lambda _: False, datetime.date),
-        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=1)).date()),  # noqa: E501
-        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=2)).date()),  # noqa: E501
-        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=3)).date()),  # noqa: E501
-        (datetime(2023, 1, 1, 12), lambda _: False, lambda x: (x + timedelta(days=4)).date()),  # noqa: E501
-    ]
+        (
+            datetime(2023, 1, 1, 12),
+            lambda _: False,
+            lambda x: (x + timedelta(days=1)).date(),
+        ),
+        (
+            datetime(2023, 1, 1, 12),
+            lambda _: False,
+            lambda x: (x + timedelta(days=2)).date(),
+        ),
+        (
+            datetime(2023, 1, 1, 12),
+            lambda _: False,
+            lambda x: (x + timedelta(days=3)).date(),
+        ),
+        (
+            datetime(2023, 1, 1, 12),
+            lambda _: False,
+            lambda x: (x + timedelta(days=4)).date(),
+        ),
+    ],
 )
 def test_get_biz_start_of_month_with_datetime_obj_should_return_the_same_result_of_get_biz_start_of_month_with_handled_date(  # noqa: E501
     d: datetime,
@@ -678,19 +764,45 @@ def test_get_biz_start_of_month_with_datetime_obj_should_return_the_same_result_
     handler: Callable[[datetime], date],
 ) -> None:
     handled = handler(d)
-    assert get_biz_start_of_month(d, is_holiday, datetime_handler=handler) == get_biz_start_of_month(handled, is_holiday)  # noqa: E501
+    actual = get_biz_start_of_month(d, is_holiday, datetime_handler=handler)
+    expected = get_biz_start_of_month(handled, is_holiday)
+    assert actual == expected
 
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'd,years,months,is_holiday,handler',
+    "d,years,months,is_holiday,handler",
     [
         (datetime(2024, 2, 1, 12), 1, 1, lambda _: False, datetime.date),
-        (datetime(2024, 2, 15, 12), 1, 1, lambda _: False, lambda x: (x + timedelta(days=1)).date()),  # noqa: E501
-        (datetime(2024, 2, 28, 12), 1, 1, lambda _: False, lambda x: (x + timedelta(days=2)).date()),  # noqa: E501
-        (datetime(2024, 2, 29, 12), 1, 1, lambda _: False, lambda x: (x + timedelta(days=3)).date()),  # noqa: E501
-        (datetime(2024, 3, 31, 12), 1, 1, lambda _: False, lambda x: (x + timedelta(days=4)).date()),  # noqa: E501
-    ]
+        (
+            datetime(2024, 2, 15, 12),
+            1,
+            1,
+            lambda _: False,
+            lambda x: (x + timedelta(days=1)).date(),
+        ),
+        (
+            datetime(2024, 2, 28, 12),
+            1,
+            1,
+            lambda _: False,
+            lambda x: (x + timedelta(days=2)).date(),
+        ),
+        (
+            datetime(2024, 2, 29, 12),
+            1,
+            1,
+            lambda _: False,
+            lambda x: (x + timedelta(days=3)).date(),
+        ),
+        (
+            datetime(2024, 3, 31, 12),
+            1,
+            1,
+            lambda _: False,
+            lambda x: (x + timedelta(days=4)).date(),
+        ),
+    ],
 )
 def test_add_years_months_with_datetime_obj_should_return_the_same_result_of_add_years_months_with_handled_date(  # noqa: E501
     d: datetime,
@@ -700,4 +812,12 @@ def test_add_years_months_with_datetime_obj_should_return_the_same_result_of_add
     handler: Callable[[datetime], date],
 ) -> None:
     handled = handler(d)
-    assert add_years_months(d, years, months, is_holiday, datetime_handler=handler) == add_years_months(handled, years, months, is_holiday)  # noqa: E501
+    actual = add_years_months(
+        d,
+        years,
+        months,
+        is_holiday,
+        datetime_handler=handler,
+    )
+    expected = add_years_months(handled, years, months, is_holiday)
+    assert actual == expected

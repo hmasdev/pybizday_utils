@@ -8,7 +8,7 @@ from pybizday_utils.date_range_utils import date_range
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'start, end, include_start, include_end, step_days, expected',
+    "start, end, include_start, include_end, step_days, expected",
     [
         (
             datetime.date(2021, 1, 1),
@@ -52,7 +52,8 @@ from pybizday_utils.date_range_utils import date_range
             1,
             [
                 datetime.date(2021, 1, 2),
-            ]),
+            ],
+        ),
         (
             datetime.date(2021, 1, 3),
             datetime.date(2021, 1, 1),
@@ -97,7 +98,7 @@ from pybizday_utils.date_range_utils import date_range
                 datetime.date(2021, 1, 2),
             ],
         ),
-    ]
+    ],
 )
 def test_date_range_with_end(
     start: datetime.date,
@@ -107,19 +108,21 @@ def test_date_range_with_end(
     step_days: int,
     expected: list[datetime.date],
 ) -> None:
-    actual = list(date_range(
-        start,
-        end,
-        include_start=include_start,
-        include_end=include_end,
-        step_days=step_days,
-    ))
+    actual = list(
+        date_range(
+            start,
+            end,
+            include_start=include_start,
+            include_end=include_end,
+            step_days=step_days,
+        )
+    )
     assert actual == expected
 
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'start, include_start, include_end, step_days, expected',
+    "start, include_start, include_end, step_days, expected",
     [
         (
             datetime.date.max - datetime.timedelta(days=3),
@@ -209,7 +212,7 @@ def test_date_range_with_end(
                 datetime.date.min + datetime.timedelta(days=1),
             ],
         ),
-    ]
+    ],
 )
 def test_date_range_without_end(
     start: datetime.date,
@@ -218,12 +221,14 @@ def test_date_range_without_end(
     step_days: int,
     expected: list[datetime.date],
 ) -> None:
-    actual = list(date_range(
-        start,
-        include_start=include_start,
-        include_end=include_end,
-        step_days=step_days,
-    ))
+    actual = list(
+        date_range(
+            start,
+            include_start=include_start,
+            include_end=include_end,
+            step_days=step_days,
+        )
+    )
     assert actual == expected
 
 
@@ -235,7 +240,7 @@ def test_date_range_with_invalid_step_days() -> None:
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'start, end, include_start, include_end, step_days, expected',
+    "start, end, include_start, include_end, step_days, expected",
     [
         (
             datetime.date(2021, 1, 1),
@@ -437,7 +442,7 @@ def test_date_range_with_invalid_step_days() -> None:
                 datetime.date(2021, 1, 4),
             ],
         ),
-    ]
+    ],
 )
 def test_date_range_with_not_1_step_days(
     start: datetime.date,
@@ -447,19 +452,21 @@ def test_date_range_with_not_1_step_days(
     step_days: int,
     expected: list[datetime.date],
 ) -> None:
-    actual = list(date_range(
-        start,
-        end,
-        include_start=include_start,
-        include_end=include_end,
-        step_days=step_days,
-    ))
+    actual = list(
+        date_range(
+            start,
+            end,
+            include_start=include_start,
+            include_end=include_end,
+            step_days=step_days,
+        )
+    )
     assert actual == expected
 
 
 @pytest.mark.positive
 @pytest.mark.parametrize(
-    'start, end, include_start, include_end, step_days, handler',
+    "start, end, include_start, include_end, step_days, handler",
     [
         (
             datetime.datetime(2021, 1, 1, 12, 0),
@@ -485,7 +492,7 @@ def test_date_range_with_not_1_step_days(
             1,
             lambda dt: (dt + datetime.timedelta(days=10)).date(),
         ),
-    ]
+    ],
 )
 def test_date_range_with_datetime_should_return_the_same_result_of_date_range_with_handled_object(  # noqa: E501
     start: datetime.datetime,
@@ -497,19 +504,23 @@ def test_date_range_with_datetime_should_return_the_same_result_of_date_range_wi
 ) -> None:
     handled_start = handler(start)
     handled_end = handler(end)
-    actual = list(date_range(
-        start,
-        end,
-        include_start=include_start,
-        include_end=include_end,
-        step_days=step_days,
-        datetime_handler=handler,
-    ))
-    expected = list(date_range(
-        handled_start,
-        handled_end,
-        include_start=include_start,
-        include_end=include_end,
-        step_days=step_days,
-    ))
+    actual = list(
+        date_range(
+            start,
+            end,
+            include_start=include_start,
+            include_end=include_end,
+            step_days=step_days,
+            datetime_handler=handler,
+        )
+    )
+    expected = list(
+        date_range(
+            handled_start,
+            handled_end,
+            include_start=include_start,
+            include_end=include_end,
+            step_days=step_days,
+        )
+    )
     assert actual == expected
