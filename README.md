@@ -140,7 +140,7 @@ from pybizday_utils import (
 
 # Define your own holidays
 def my_is_holiday(date):
-    return date.month == 1 and date.day == 1 or date.month == 4 and date.day == 3
+   return date.month == 1 and date.day == 1 or date.month == 4 and date.day == 3
 
 
 # Get the next business day after a given date
@@ -158,6 +158,60 @@ for bizday in bizdays:
 ```
 
 **Note that the default `is_holiday function`, which checks if a date is Saturday or Sunday, is not used in this case.**
+
+#### [Advanced] Compile Customized Holidays
+
+If you find that `pybizday_utils` is slow, you can speed it up by compiling your holiday function.
+The compile function provided in `pybizday_utils.holiday_utils` generates an optimized version of your holiday function.
+This compiled function is faster because it uses a precomputed set of holiday dates.
+Internally, it returns a function like `lambda d: d in HOLIDAY_SET`,
+where `HOLIDAY_SET` is a set of dates for which your original holiday function returns True.
+
+```python
+from datetime import date
+from pybizday_utils import get_next_bizday
+from pybizday_utils.holiday_utils import compile
+
+
+# Define your own holidays
+def my_is_holiday(date):
+   # ... Heavy calculation ...
+   return date.month == 1 and date.day == 1 or date.month == 4 and date.day == 3
+
+
+# Compile your holiday function
+compiled_is_holiday = compile(my_is_holiday)
+
+# Get the next business day after a given date
+next_bizday = get_next_bizday(date(2025, 4, 2), is_holiday=compiled_is_holiday)
+print(next_bizday)  # Output: 2025-04-04
+```
+
+Furthermore, if you find that `compile` is slow, you can speed `compile` up by passing `start` and `end` parameters to `compile`.
+`start` and `end` are the start and end dates of the range of dates you want to compile.
+
+```python
+from datetime import date
+from pybizday_utils import get_next_bizday
+from pybizday_utils.holiday_utils import compile
+
+
+# Define your own holidays
+def my_is_holiday(date):
+   # ... Heavy calculation ...
+   return date.month == 1 and date.day == 1 or date.month == 4 and date.day == 3
+
+# Compile your holiday function with a range of dates
+compiled_is_holiday = compile(my_is_holiday, start=date(2025, 1, 1), end=date(2025, 12, 31))
+
+# Get the next business day after a given date
+next_bizday = get_next_bizday(date(2025, 4, 2), is_holiday=compiled_is_holiday)
+print(next_bizday)  # Output: 2025-04-04
+
+# If the argument of the compiled function is outside the range, the compiled function raises an error.
+get_next_bizday(date(2026, 4, 2), is_holiday=compiled_is_holiday)
+# Output: ValueError: "Date must be between start and end dates: "date = 2026-04-02", start = 2025-01-01, end = 2025-12-31"
+```
 
 ### Customize the default holidays
 
