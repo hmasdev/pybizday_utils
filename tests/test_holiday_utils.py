@@ -4,6 +4,8 @@ import pytest
 
 from pybizday_utils.holiday_utils import (
     HolidayDiscriminator,
+    IsHolidayFuncType,
+    compile,
     is_between_1231_0103,
     is_new_year_day,
     is_saturday_or_sunday,
@@ -328,3 +330,106 @@ def test_holiday_discriminator_remove_not_exist() -> None:
 
     # NOTE: Ensure all or nothing is updated.
     assert discriminator.names == [is_new_year_day.__name__]
+
+
+@pytest.mark.positive
+@pytest.mark.heavy
+@pytest.mark.parametrize(
+    "is_holiday",
+    [
+        is_new_year_day,
+        is_saturday_or_sunday,
+        is_the_end_of_year,
+        is_the_first_three_days_of_new_year,
+    ],
+)
+def test_compile(
+    is_holiday: IsHolidayFuncType,
+) -> None:
+
+    # check whether compile works
+    compiled_func = compile(is_holiday)
+
+    # check whether compiled function works as expected
+    for d in [
+        date(2024, 12, 30),
+        date(2024, 12, 31),
+        date(2025, 1, 1),
+        date(2025, 1, 2),
+        datetime(2025, 1, 3),
+        datetime(2025, 1, 4),
+        datetime(2025, 1, 5),
+        datetime(2025, 1, 6),
+    ]:
+        assert compiled_func(d) == is_holiday(d)
+
+
+@pytest.mark.positive
+@pytest.mark.heavy
+@pytest.mark.parametrize(
+    "is_holiday, start, end",
+    [
+        (
+            is_new_year_day,
+            date(2019, 1, 1),
+            date(2030, 12, 31),
+        ),
+        (
+            is_saturday_or_sunday,
+            date(2020, 1, 1),
+            date(2030, 12, 31),
+        ),
+        (
+            is_the_end_of_year,
+            datetime(2020, 1, 1),
+            datetime(2031, 12, 31),
+        ),
+        (
+            is_the_first_three_days_of_new_year,
+            datetime(2020, 1, 1),
+            datetime(2031, 12, 31),
+        ),
+    ],
+)
+def test_compile_with_start_and_end(
+    is_holiday: IsHolidayFuncType,
+    start: date,
+    end: date,
+) -> None:
+
+    # check whether compile works
+    compiled_func = compile(is_holiday, start, end)
+
+    # check whether compiled function works as expected
+    for d in [
+        date(2024, 12, 30),
+        date(2024, 12, 31),
+        date(2025, 1, 1),
+        date(2025, 1, 2),
+        datetime(2025, 1, 3),
+        datetime(2025, 1, 4),
+        datetime(2025, 1, 5),
+        datetime(2025, 1, 6),
+    ]:
+        assert compiled_func(d) == is_holiday(d)
+
+
+@pytest.mark.negative
+def test_compiled_func_should_raise_value_error_for_out_of_range_date() -> None:
+    compiled_func = compile(
+        is_new_year_day,
+        start=date(2020, 1, 1),
+        end=date(2030, 12, 31),
+    )
+    with pytest.raises(ValueError):
+        compiled_func(date(2019, 1, 1))
+
+
+@pytest.mark.negative
+def test_compile_with_start_is_greater_than_end() -> None:
+    with pytest.raises(ValueError):
+        compile(
+            is_new_year_day,
+            start=date(2030, 1, 1),
+            end=date(2020, 12, 31),
+        )

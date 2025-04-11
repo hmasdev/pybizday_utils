@@ -1,5 +1,8 @@
 import datetime
+from functools import wraps
 from typing import Callable
+
+from .date_range_utils import date_range
 
 IsHolidayFuncType = Callable[[datetime.datetime | datetime.date], bool]  # noqa: E501
 
@@ -195,3 +198,60 @@ class HolidayDiscriminator:
         # remove the functions
         for name in names:
             self._is_holiday_funcs.pop(name)
+
+
+def compile(
+    is_holiday: IsHolidayFuncType,
+    start: datetime.datetime | datetime.date = datetime.date.min,
+    end: datetime.datetime | datetime.date = datetime.date.max,
+) -> IsHolidayFuncType:
+    """Compile a function to check if a date is a holiday.
+
+    Args:
+        is_holiday (IsHolidayFuncType): Function to compile.
+        start (datetime.datetime | datetime.date, optional): Start date for
+            compilation. Defaults to datetime.date.min.
+        end (datetime.datetime | datetime.date, optional): End date for
+            compilation. Defaults to datetime.date.max.
+
+    Returns:
+        IsHolidayFuncType: Compiled function.
+
+    Note:
+        - start and end dates are inclusive.
+    """  # noqa: E501
+    # Preprocess start and end dates
+    if isinstance(start, datetime.datetime):
+        start = start.date()
+    if isinstance(end, datetime.datetime):
+        end = end.date()
+
+    # validate start and end dates
+    if start > end:
+        raise ValueError(
+            "Start date must be before end date: "
+            f"start = {start}, end = {end}"
+        )
+
+    # initialize the date range
+    holidays: set[datetime.date] = {
+        d
+        for d in date_range(start, end)
+        if is_holiday(d)
+    }
+
+    @wraps(is_holiday)
+    def is_holiday_(date: datetime.datetime | datetime.date) -> bool:
+        # Preprocess date
+        if isinstance(date, datetime.datetime):
+            date = date.date()
+        # validate date
+        if date < start or date > end:
+            raise ValueError(
+                "Date must be between start and end dates: "
+                f"date = {date}, start = {start}, end = {end}"
+            )
+        # Check if the date is in the set of holidays
+        return date in holidays
+
+    return is_holiday_
