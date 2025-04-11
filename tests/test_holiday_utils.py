@@ -5,7 +5,7 @@ import pytest
 from pybizday_utils.holiday_utils import (
     HolidayDiscriminator,
     IsHolidayFuncType,
-    compile,
+    compile_is_holiday,
     is_between_1231_0103,
     is_new_year_day,
     is_saturday_or_sunday,
@@ -348,7 +348,7 @@ def test_compile(
 ) -> None:
 
     # check whether compile works
-    compiled_func = compile(is_holiday)
+    compiled_func = compile_is_holiday(is_holiday)
 
     # check whether compiled function works as expected
     for d in [
@@ -398,7 +398,7 @@ def test_compile_with_start_and_end(
 ) -> None:
 
     # check whether compile works
-    compiled_func = compile(is_holiday, start, end)
+    compiled_func = compile_is_holiday(is_holiday, start, end)
 
     # check whether compiled function works as expected
     for d in [
@@ -422,7 +422,7 @@ def test_compiled_func_for_out_of_compilation_range(
     start = date(2020, 1, 1)
     end = date(2030, 12, 31)
     d = date(2019, 1, 1)
-    compiled_func = compile(is_new_year_day, start=start, end=end)
+    compiled_func = compile_is_holiday(is_new_year_day, start=start, end=end)
 
     # execute the compiled function with a date out of the compilation range
     with caplog.at_level("WARNING"):
@@ -435,7 +435,7 @@ def test_compiled_func_for_out_of_compilation_range(
 @pytest.mark.negative
 def test_compile_with_start_is_greater_than_end() -> None:
     with pytest.raises(ValueError):
-        compile(
+        compile_is_holiday(
             is_new_year_day,
             start=date(2030, 1, 1),
             end=date(2020, 12, 31),

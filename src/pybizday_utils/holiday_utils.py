@@ -202,7 +202,7 @@ class HolidayDiscriminator:
             self._is_holiday_funcs.pop(name)
 
 
-def compile(
+def compile_is_holiday(
     is_holiday: IsHolidayFuncType,
     start: datetime.datetime | datetime.date = datetime.date.min,
     end: datetime.datetime | datetime.date = datetime.date.max,

@@ -7,7 +7,7 @@ from typing import Generator
 from pybizday_utils import get_n_next_bizday
 from pybizday_utils.holiday_utils import (
     HolidayDiscriminator,
-    compile,
+    compile_is_holiday,
     is_between_1231_0103,
     is_saturday_or_sunday,
 )
@@ -94,7 +94,7 @@ def main() -> None:
 
     # compile
     if with_compile:
-        is_holiday = compile(is_saturday_or_sunday)
+        is_holiday = compile_is_holiday(is_saturday_or_sunday)
 
     # Execute the function and measure performance
     records: list[float] = []
