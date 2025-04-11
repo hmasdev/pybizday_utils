@@ -4,6 +4,8 @@ import pytest
 
 from pybizday_utils.holiday_utils import (
     HolidayDiscriminator,
+    IsHolidayFuncType,
+    compile_is_holiday,
     is_between_1231_0103,
     is_new_year_day,
     is_saturday_or_sunday,
@@ -328,3 +330,113 @@ def test_holiday_discriminator_remove_not_exist() -> None:
 
     # NOTE: Ensure all or nothing is updated.
     assert discriminator.names == [is_new_year_day.__name__]
+
+
+@pytest.mark.positive
+@pytest.mark.heavy
+@pytest.mark.parametrize(
+    "is_holiday",
+    [
+        is_new_year_day,
+        is_saturday_or_sunday,
+        is_the_end_of_year,
+        is_the_first_three_days_of_new_year,
+    ],
+)
+def test_compile(
+    is_holiday: IsHolidayFuncType,
+) -> None:
+
+    # check whether compile works
+    compiled_func = compile_is_holiday(is_holiday)
+
+    # check whether compiled function works as expected
+    for d in [
+        date(2024, 12, 30),
+        date(2024, 12, 31),
+        date(2025, 1, 1),
+        date(2025, 1, 2),
+        datetime(2025, 1, 3),
+        datetime(2025, 1, 4),
+        datetime(2025, 1, 5),
+        datetime(2025, 1, 6),
+    ]:
+        assert compiled_func(d) == is_holiday(d)
+
+
+@pytest.mark.positive
+@pytest.mark.heavy
+@pytest.mark.parametrize(
+    "is_holiday, start, end",
+    [
+        (
+            is_new_year_day,
+            date(2019, 1, 1),
+            date(2030, 12, 31),
+        ),
+        (
+            is_saturday_or_sunday,
+            date(2020, 1, 1),
+            date(2030, 12, 31),
+        ),
+        (
+            is_the_end_of_year,
+            datetime(2020, 1, 1),
+            datetime(2031, 12, 31),
+        ),
+        (
+            is_the_first_three_days_of_new_year,
+            datetime(2020, 1, 1),
+            datetime(2031, 12, 31),
+        ),
+    ],
+)
+def test_compile_with_start_and_end(
+    is_holiday: IsHolidayFuncType,
+    start: date,
+    end: date,
+) -> None:
+
+    # check whether compile works
+    compiled_func = compile_is_holiday(is_holiday, start, end)
+
+    # check whether compiled function works as expected
+    for d in [
+        date(2024, 12, 30),
+        date(2024, 12, 31),
+        date(2025, 1, 1),
+        date(2025, 1, 2),
+        datetime(2025, 1, 3),
+        datetime(2025, 1, 4),
+        datetime(2025, 1, 5),
+        datetime(2025, 1, 6),
+    ]:
+        assert compiled_func(d) == is_holiday(d)
+
+
+@pytest.mark.positive
+def test_compiled_func_for_out_of_compilation_range(
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+
+    start = date(2020, 1, 1)
+    end = date(2030, 12, 31)
+    d = date(2019, 1, 1)
+    compiled_func = compile_is_holiday(is_new_year_day, start=start, end=end)
+
+    # execute the compiled function with a date out of the compilation range
+    with caplog.at_level("WARNING"):
+        compiled_func(date(2019, 1, 1))
+
+    expected = f"Date({d}) is out of the compilation range from {start} to {end}."  # noqa: E501
+    assert expected in caplog.text
+
+
+@pytest.mark.negative
+def test_compile_with_start_is_greater_than_end() -> None:
+    with pytest.raises(ValueError):
+        compile_is_holiday(
+            is_new_year_day,
+            start=date(2030, 1, 1),
+            end=date(2020, 12, 31),
+        )
