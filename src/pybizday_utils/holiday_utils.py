@@ -1,9 +1,11 @@
 import datetime
 from functools import wraps
+from logging import Logger, getLogger
 from typing import Callable
 
 from .date_range_utils import date_range
 
+_logger = getLogger(__name__)
 IsHolidayFuncType = Callable[[datetime.datetime | datetime.date], bool]  # noqa: E501
 
 
@@ -204,6 +206,7 @@ def compile(
     is_holiday: IsHolidayFuncType,
     start: datetime.datetime | datetime.date = datetime.date.min,
     end: datetime.datetime | datetime.date = datetime.date.max,
+    logger: Logger = _logger,
 ) -> IsHolidayFuncType:
     """Compile a function to check if a date is a holiday.
 
@@ -213,6 +216,7 @@ def compile(
             compilation. Defaults to datetime.date.min.
         end (datetime.datetime | datetime.date, optional): End date for
             compilation. Defaults to datetime.date.max.
+        logger (Logger, optional): Logger. Defaults to getLogger(__name__).
 
     Returns:
         IsHolidayFuncType: Compiled function.
@@ -241,17 +245,17 @@ def compile(
     }
 
     @wraps(is_holiday)
-    def is_holiday_(date: datetime.datetime | datetime.date) -> bool:
+    def is_holiday_(d: datetime.datetime | datetime.date) -> bool:
         # Preprocess date
-        if isinstance(date, datetime.datetime):
-            date = date.date()
+        if isinstance(d, datetime.datetime):
+            d = d.date()
         # validate date
-        if date < start or date > end:
-            raise ValueError(
-                "Date must be between start and end dates: "
-                f"date = {date}, start = {start}, end = {end}"
+        if d < start or d > end:
+            logger.warning(
+                f"Date({d}) is out of the compilation range from {start} to {end}.",
             )
+            return is_holiday(d)
         # Check if the date is in the set of holidays
-        return date in holidays
+        return d in holidays
 
     return is_holiday_

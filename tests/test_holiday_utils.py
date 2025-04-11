@@ -414,15 +414,22 @@ def test_compile_with_start_and_end(
         assert compiled_func(d) == is_holiday(d)
 
 
-@pytest.mark.negative
-def test_compiled_func_should_raise_value_error_for_out_of_range_date() -> None:
-    compiled_func = compile(
-        is_new_year_day,
-        start=date(2020, 1, 1),
-        end=date(2030, 12, 31),
-    )
-    with pytest.raises(ValueError):
+@pytest.mark.positive
+def test_compiled_func_for_out_of_compilation_range(
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+
+    start = date(2020, 1, 1)
+    end = date(2030, 12, 31)
+    d = date(2019, 1, 1)
+    compiled_func = compile(is_new_year_day, start=start, end=end)
+
+    # execute the compiled function with a date out of the compilation range
+    with caplog.at_level("WARNING"):
         compiled_func(date(2019, 1, 1))
+
+    expected = f"Date({d}) is out of the compilation range from {start} to {end}."  # noqa: E501
+    assert expected in caplog.text
 
 
 @pytest.mark.negative

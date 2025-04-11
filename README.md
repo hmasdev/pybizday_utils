@@ -49,7 +49,7 @@ See [How to Build](#how-to-build) section for more details.
    - add years and months to a date considering business days. e.g. transform a business end of month to a business end of month.
 
 In this section, some examples are provided to illustrate how to use the library.
-If you want to know the defails, see the docstrings of each function.
+If you want to know the details, see the docstrings of each function.
 
 The following is an example of the first feature:
 
@@ -207,10 +207,6 @@ compiled_is_holiday = compile(my_is_holiday, start=date(2025, 1, 1), end=date(20
 # Get the next business day after a given date
 next_bizday = get_next_bizday(date(2025, 4, 2), is_holiday=compiled_is_holiday)
 print(next_bizday)  # Output: 2025-04-04
-
-# If the argument of the compiled function is outside the range, the compiled function raises an error.
-get_next_bizday(date(2026, 4, 2), is_holiday=compiled_is_holiday)
-# Output: ValueError: "Date must be between start and end dates: "date = 2026-04-02", start = 2025-01-01, end = 2025-12-31"
 ```
 
 ### Customize the default holidays
