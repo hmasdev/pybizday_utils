@@ -101,12 +101,13 @@ jobs:
           path: ./dist/
       - name: Upload to PyPI
         run: |
-          uv run twine upload ./dist/*${{ github.event.release.tag_name }}*
+          uv run twine upload "./dist/*${GITHUB_EVENT_RELEASE_TAG_NAME}*"
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
           TWINE_REPOSITORY_URL: https://upload.pypi.org/legacy/
           TWINE_SKIP_EXISTING: true
+          GITHUB_EVENT_RELEASE_TAG_NAME: ${{ github.event.release.tag_name }}
     permissions:
       contents: read
       packages: read
