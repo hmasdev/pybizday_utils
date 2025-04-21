@@ -101,7 +101,7 @@ jobs:
           path: ./dist/
       - name: Upload to PyPI
         run: |
-          uv run twine upload ./dist/*${GITHUB_EVENT_RELEASE_TAG_NAME}*
+          uv run twine upload "./dist/*${GITHUB_EVENT_RELEASE_TAG_NAME}*"
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
