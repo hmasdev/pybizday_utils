@@ -32,9 +32,9 @@ jobs:
         with:
           ref: ${{ github.ref }}
       - name: Set up Python 3.11
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.11
+          python-version: "3.11"
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -86,9 +86,9 @@ jobs:
         with:
           ref: ${{ github.ref }}
       - name: Set up Python 3.11
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.11
+          python-version: "3.11"
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -101,7 +101,7 @@ jobs:
           path: ./dist/
       - name: Upload to PyPI
         run: |
-          uv run twine upload ./dist/*${GITHUB_EVENT_RELEASE_TAG_NAME}*
+          uv run twine upload "./dist/*${GITHUB_EVENT_RELEASE_TAG_NAME}*"
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
